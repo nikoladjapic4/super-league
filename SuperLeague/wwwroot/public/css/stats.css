@@ -1,0 +1,165 @@
+﻿:root {
+    --primary-blue: #0C4077;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --bg-red: #cc0000;
+    --bg-yellow: #ffcc00;
+    --bg-blue: #0055aa;
+    --bg-dark: #222222;
+    --border-color: #555555
+}
+
+body {
+    font-family: Arial,sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: var(--text-dark)
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px
+}
+
+.top-players-section {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+    text-align: center;
+    color: #0c4076;
+    font: bolder
+}
+
+.tables-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around
+}
+
+.most-assists-table td:nth-child(1), .most-assists-table th:nth-child(1), .most-goals-table td:nth-child(1), .most-goals-table th:nth-child(1) {
+    width: 15%;
+    text-align: center
+}
+
+.most-assists-table td:nth-child(2), .most-assists-table th:nth-child(2), .most-goals-table td:nth-child(2), .most-goals-table th:nth-child(2) {
+    width: 65%;
+    text-align: left
+}
+
+.most-assists-table td:nth-child(3), .most-assists-table th:nth-child(3), .most-goals-table td:nth-child(3), .most-goals-table th:nth-child(3) {
+    width: 20%;
+    text-align: center
+}
+
+.most-assists-table-container, .most-goals-table-container {
+    flex: 1 1 300px;
+    margin-bottom: 20px
+}
+
+    .most-assists-table-container h3, .most-goals-table-container h3 {
+        margin-top: 0;
+        color: var(--primary-blue);
+        margin-bottom: 10px;
+        text-align: center
+    }
+
+.most-assists-table, .most-goals-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff
+}
+
+    .most-assists-table thead, .most-goals-table thead {
+        background-color: #f7f7f7;
+        color: var(--text-dark);
+        font-weight: 700
+    }
+
+    .most-assists-table td, .most-assists-table th, .most-goals-table td, .most-goals-table th {
+        padding: 10px 8px;
+        text-align: left;
+        border-bottom: 1px solid #eee
+    }
+
+    .most-assists-table tbody tr:last-child td, .most-goals-table tbody tr:last-child td {
+        border-bottom: none
+    }
+
+    .most-assists-table tbody tr:nth-child(even), .most-goals-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9
+    }
+
+.player-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    background-color: #eee
+}
+
+.most-assists-table td:nth-child(3), .most-goals-table td:nth-child(3) {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-blue)
+}
+
+.most-assists-table td:nth-child(1), .most-assists-table th:nth-child(1), .most-goals-table td:nth-child(1), .most-goals-table th:nth-child(1) {
+    width: 30px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-blue)
+}
+
+@media (max-width:768px) {
+    .tables-container {
+        flex-direction: column;
+        align-items: center
+    }
+
+    .most-assists-table-container, .most-goals-table-container {
+        width: 95%
+    }
+
+    .player-logo {
+        width: 25px;
+        height: 25px
+    }
+
+    .most-assists-table td, .most-assists-table th, .most-goals-table td, .most-goals-table th {
+        padding: 8px 6px;
+        font-size: .9em
+    }
+}
+
+.most-assists-table td:last-child, .most-assists-table th:last-child, .most-goals-table td:last-child, .most-goals-table th:last-child {
+    width: 20%;
+    text-align: center;
+    padding-right: 12px
+}
+
+.most-assists-table td:nth-child(4), .most-assists-table th:nth-child(4), .most-goals-table td:nth-child(4), .most-goals-table th:nth-child(4) {
+    display: none
+}
+
+@media (max-width:480px) {
+    .most-assists-table td, .most-assists-table th, .most-goals-table td, .most-goals-table th {
+        padding: 6px 4px
+    }
+
+    .player-logo {
+        width: 18px;
+        height: 18px
+    }
+
+    .most-assists-table td:nth-child(2), .most-assists-table th:nth-child(2), .most-goals-table td:nth-child(2), .most-goals-table th:nth-child(2) {
+        text-align: left
+    }
+}

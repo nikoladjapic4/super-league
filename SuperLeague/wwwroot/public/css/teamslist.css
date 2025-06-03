@@ -1,0 +1,137 @@
+﻿:root {
+    --primary-blue: #0C4077;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --bg-red: #cc0000;
+    --bg-yellow: #ffcc00;
+    --bg-blue: #0055aa;
+    --bg-dark: #222222;
+    --border-color: #555555
+}
+
+body {
+    font-family: Arial,sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: var(--text-dark)
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px
+}
+
+.main-content {
+    padding: 30px 0
+}
+
+.teams-section h2 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    color: #0c4076
+}
+
+.season {
+    font-size: 1.3em;
+    color: #666;
+    margin-bottom: 30px
+}
+
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px
+}
+
+.team-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px 10px;
+    text-align: center;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    text-decoration: none;
+    transition: transform .2s ease-in-out,box-shadow .2s ease-in-out,background-color .2s ease-in-out;
+    cursor: pointer
+}
+
+    .team-item.bg-red:hover {
+        background-color: #fcafaf
+    }
+
+    .team-item.bg-blue:hover {
+        background-color: #9dccfb
+    }
+
+    .team-item.bg-yellow:hover {
+        background-color: #ffffb0;
+        color: var(--text-dark)
+    }
+
+    .team-item.bg-dark:hover {
+        background-color: #9a9a9a
+    }
+
+    .team-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,.1);
+        background-color: #d1d3d4
+    }
+
+    .team-item img {
+        max-width: 80px;
+        height: auto;
+        margin-bottom: 15px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto
+    }
+
+    .team-item p {
+        margin: 0;
+        font-weight: 700;
+        font-size: 1em
+    }
+
+.bg-red {
+    background-color: var(--bg-red);
+    color: var(--text-light)
+}
+
+.bg-yellow {
+    background-color: var(--bg-yellow);
+    color: var(--text-dark)
+}
+
+.bg-blue {
+    background-color: var(--bg-blue);
+    color: var(--text-light)
+}
+
+.bg-dark {
+    background-color: var(--bg-dark);
+    color: var(--text-light)
+}
+
+@media (max-width:768px) {
+    .teams-grid {
+        grid-template-columns: repeat(2,1fr)
+    }
+
+    .teams-section h2 {
+        font-size: 1.8em
+    }
+}
+
+@media (max-width:480px) {
+    .teams-grid {
+        grid-template-columns: 1fr
+    }
+}

@@ -1,0 +1,282 @@
+﻿.league-header {
+    height: 300px;
+    background-image: url(../../images/nacionalni_stadion.jpg);
+    background-size: cover;
+    background-position: center;
+    color: var(--text-light);
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 30px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0;
+    margin-right: 0
+}
+
+    .league-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.5);
+        z-index: 1;
+        border-radius: inherit
+    }
+
+.header-content {
+    position: relative;
+    z-index: 2
+}
+
+.league-header h2 {
+    font-size: 2.5em;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,.5)
+}
+
+.league-header p {
+    font-size: 1.2em;
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+    color: #eee;
+    text-shadow: 1px 1px 2px rgba(0,0,0,.5)
+}
+
+.signin-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 20px 0
+}
+
+.signin-button {
+    display: inline-block;
+    background-color: var(--primary-red,#c00);
+    color: var(--text-light,#fff);
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .3s ease,transform .2s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 1em;
+    text-align: center
+}
+
+    .signin-button:hover {
+        background-color: var(--bg-yellow,#fc0);
+        color: var(--text-dark,#222);
+        transform: scale(1.03)
+    }
+
+.fixture-table-wrapper, .league-table-container {
+    width: 100%;
+    margin: 0 0 40px 0;
+    font-family: Inter,Roboto,sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+    background-color: #fff
+}
+
+    .fixture-table-wrapper h2, .league-table-container h2 {
+        text-align: left;
+        padding: 15px 20px;
+        margin: 0;
+        font-size: 1.4em;
+        font-weight: 600;
+        color: var(--primary-blue);
+        background-color: #f0f4f8;
+        border-bottom: 1px solid var(--border-color,#ddd)
+    }
+
+.filter-controls {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-color)
+}
+
+.top-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px
+}
+
+#filterOptions {
+    display: none;
+    gap: 10px;
+    margin-left: auto
+}
+
+.filter-controls button {
+    background-color: var(--primary-blue);
+    color: var(--text-light);
+    font-weight: 500;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: .9em;
+    transition: background-color .3s ease,transform .2s ease;
+    white-space: nowrap;
+    margin: 0
+}
+
+    .filter-controls button:hover {
+        background-color: #0c4077;
+        transform: translateY(-1px)
+    }
+#filterOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+    #filterOptions button.filter-option {
+        background-color: #ffcc00;
+        color: var(--text-light);
+        padding: 6px 10px;
+        font-size: .85em
+    }
+
+    #filterOptions button.filter-option:hover {
+        background-color: var(--primary-blue)
+    }
+
+#resetFilterBtn {
+    background-color: #dc3545
+}
+
+    #resetFilterBtn:hover {
+        background-color: #c82333
+    }
+
+.table-responsive {
+    width: 100%
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse
+}
+
+thead {
+    background-color: #e9ecef;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: .8em;
+    text-transform: uppercase;
+    letter-spacing: .5px
+}
+
+td, th {
+    padding: 10px 8px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color,#ddd);
+    font-size: .9em;
+    white-space: nowrap;
+    vertical-align: middle
+}
+
+    td:nth-child(2), th:nth-child(2) {
+        text-align: left;
+        padding-left: 15px
+    }
+
+    td:first-child, th:first-child {
+        text-align: center;
+        width: 40px
+    }
+
+    td:last-child, th:last-child {
+        text-align: center;
+        font-weight: 700;
+        color: var(--primary-blue);
+        width: 60px
+    }
+
+    th[data-long][data-short]::before {
+        content: attr(data-long)
+    }
+
+tbody tr:nth-child(even) {
+    background-color: var(--light-grey-bg,#f8f9fa)
+}
+
+tbody tr:hover {
+    background-color: #e9ecef;
+    transition: background-color .2s ease-in-out
+}
+
+.team-logo-small {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle
+}
+
+td.result {
+    font-weight: 600
+}
+
+@media (max-width:768px) {
+    .league-header h2 {
+        font-size: 2em
+    }
+
+    .league-header p {
+        font-size: 1em
+    }
+
+    th[data-long][data-short]::before {
+        content: attr(data-short)
+    }
+
+    td, th {
+        font-size: .8em;
+        padding: 8px 5px
+    }
+
+        td:nth-child(2), th:nth-child(2) {
+            padding-left: 8px
+        }
+}
+
+@media (max-width:480px) {
+    .league-header {
+        height: 200px
+    }
+
+        .league-header h2 {
+            font-size: 1.5em
+        }
+
+        .league-header p {
+            font-size: .9em
+        }
+
+    td, th {
+        font-size: .7em;
+        padding: 6px 3px;
+        white-space: normal
+    }
+
+        td:nth-child(2), th:nth-child(2) {
+            padding-left: 5px;
+            white-space: normal
+        }
+}
+
+

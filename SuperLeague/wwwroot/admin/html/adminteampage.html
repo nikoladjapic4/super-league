@@ -1,0 +1,698 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Super league</title>
+    <link rel="stylesheet" href="../css/adminteampage.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+
+    <link rel="icon" href="../../images/partizan.svg" type="image/x-icon">
+</head>
+<body>
+
+
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">
+                <img src="../../images/superliga-logo1.svg" alt="Logo Super lige Srbije">
+            </h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../../admin.html" class="active">Home</a></li>
+                    <li><a href="adminteamslist.html" class="active">Teams list</a></li>
+                    <li><a href="adminstats.html" class="active">Stats</a></li>
+                    <li><a href="adminfixture.html" class="active">Fixture</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="team-page">
+        <div class="container">
+            <div class="admin-bar">
+                🔒 You are in Admin Mode
+            </div>
+
+            <section class="team-info">
+                <div class="team-header">
+                    <h1 class="team-name">Partizan Belgrade</h1>
+                    <div class="team-badge">
+                        <img src="../../images/partizan.svg" alt="Partizan Belgrade Badge" class="badge-image">
+                    </div>
+                </div>
+                <div class="team-details">
+                    <div class="details-box">
+                        <h3>Date of foundation:</h3>
+                        <p class="foundation-date">October 4, 1945</p>
+                    </div>
+                    <div class="details-box">
+                        <h3>City:</h3>
+                        <p class="city">Belgrade</p>
+                    </div>
+                    <div class="details-box">
+                        <h3>Stadium:</h3>
+                        <p class="stadium">Partizan Stadium</p>
+                    </div>
+                    <div class="details-box">
+                        <h3>Coach:</h3>
+                        <div class="coach-row">
+                            <p class="coach">Igor Duljaj</p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="squad">
+                <h2>Squad</h2>
+                <div class="action-buttons">
+                    <button id="createPlayerBtn" style="padding: 8px 16px;">Create Player</button>
+                    <button id="addPlayerBtn" style="padding: 8px 16px;">Add Player</button>
+
+                </div>
+                <div class="squad-segment league-table-container">
+                    <h3>Goalkeepers</h3>
+                    <div class="table-responsive">
+                        <table class="squad-table">
+                            <thead>
+                                <tr>
+                                    <th data-long="Jersey" data-short="#"></th>
+                                    <th data-long="Name" data-short="Name"></th>
+                                    <th data-long="Nationality" data-short="Nat"></th>
+                                    <th data-long="Appearances" data-short="A"></th>
+                                    <th data-long="Minutes Played" data-short="MP"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="squad-segment league-table-container">
+                    <h3>Defenders</h3>
+                    <div class="table-responsive">
+                        <table class="squad-table">
+                            <thead>
+                                <tr>
+                                    <th data-long="Jersey" data-short="#"></th>
+                                    <th data-long="Name" data-short="Name"></th>
+                                    <th data-long="Nationality" data-short="Nat"></th>
+                                    <th data-long="Appearances" data-short="A"></th>
+                                    <th data-long="Minutes Played" data-short="MP"></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Luka Nikolić</td>
+                                    <td>Srbija</td>
+                                    <td>28</td>
+                                    <td>2520</td>
+                                    <td>
+                                        <div class="player-actions">
+                                            <button class="player-button">⋯</button>
+                                            <div class="player-menu">
+                                                <button class="edit-button">✏️ Edit</button>
+                                                <button class="delete-button">🗑️ Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Stefan Marković</td>
+                                    <td>Srbija</td>
+                                    <td>30</td>
+                                    <td>2700</td>
+                                    <td>
+                                        <div class="player-actions">
+                                            <button class="player-button">⋯</button>
+                                            <div class="player-menu">
+                                                <button class="edit-button">✏️ Edit</button>
+                                                <button class="delete-button">🗑️ Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>22</td>
+                                    <td>Marko Petrović</td>
+                                    <td>Crna Gora</td>
+                                    <td>35</td>
+                                    <td>1220</td>
+                                    <td>
+                                        <div class="player-actions">
+                                            <button class="player-button">⋯</button>
+                                            <div class="player-menu">
+                                                <button class="edit-button">✏️ Edit</button>
+                                                <button class="delete-button">🗑️ Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="squad-segment league-table-container">
+                    <h3>Midfielders</h3>
+                    <div class="table-responsive">
+                        <table class="squad-table">
+                            <thead>
+                                <tr>
+                                    <th data-long="Jersey" data-short="#"></th>
+                                    <th data-long="Name" data-short="Name"></th>
+                                    <th data-long="Nationality" data-short="Nat"></th>
+                                    <th data-long="Appearances" data-short="A"></th>
+                                    <th data-long="Minutes Played" data-short="MP"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="squad-segment league-table-container">
+                    <h3>Forwards</h3>
+                    <div class="table-responsive">
+                        <table class="squad-table">
+                            <thead>
+                                <tr>
+                                    <th data-long="Jersey" data-short="#"></th>
+                                    <th data-long="Name" data-short="Name"></th>
+                                    <th data-long="Nationality" data-short="Nat"></th>
+                                    <th data-long="Appearances" data-short="A"></th>
+                                    <th data-long="Minutes Played" data-short="MP"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-matches">
+                <h2>Last 3 games</h2>
+
+                <div class="matches-container">
+                    <div class="match-item">
+                        <div class="match-date">10.04.2025</div>
+                        <div class="match-lineup">
+                            <div class="team team-home">
+                                <img src="../../images/partizan.svg" alt="DOM" />
+                                <span class="team-code">DOM</span>
+                            </div>
+                            <div class="score">2 : 1</div>
+                            <div class="team team-away">
+                                <span class="team-code">GOS</span>
+                                <img src="grb-gost1.png" alt="GOS" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="match-divider"></div>
+
+                    <div class="match-item">
+                        <div class="match-date">05.04.2025</div>
+                        <div class="match-lineup">
+                            <div class="team team-home">
+                                <img src="grb-domacin2.png" alt="DOM" />
+                                <span class="team-code">DOM</span>
+                            </div>
+                            <div class="score">1 : 1</div>
+                            <div class="team team-away">
+                                <span class="team-code">GOS</span>
+                                <img src="../../images/partizan.svg" alt="GOS" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="match-divider"></div>
+
+                    <div class="match-item">
+                        <div class="match-date">01.04.2025</div>
+                        <div class="match-lineup">
+                            <div class="team team-home">
+                                <img src="../../images/partizan.svg" alt="DOM" />
+                                <span class="team-code">DOM</span>
+                            </div>
+                            <div class="score">3 : 2</div>
+                            <div class="team team-away">
+                                <span class="team-code">GOS</span>
+                                <img src="grb-gost3.png" alt="GOS" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+    <footer class="main-footer-section">
+        <div class="container">
+            <section class="organisations-section">
+                <h2 class="section-title">Organisations</h2>
+                <div class="organisations-container">
+                    <a href="https://www.fifa.com/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-fifa" src="../../images/fifa.svg" alt="FIFA logo">
+                            <div class="org-text">
+                                <div class="org-name">FIFA</div>
+                                <div class="org-description">Fédération Internationale de<br>Football Association</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.uefa.com/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-uefa" src="../../images/uefa.svg" alt="UEFA logo">
+                            <div class="org-text">
+                                <div class="org-name">UEFA</div>
+                                <div class="org-description">Union of European Football Associations</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://fss.rs/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-fss" src="../../images/fss.svg" alt="FSS logo">
+                            <div class="org-text">
+                                <div class="org-name">FSS</div>
+                                <div class="org-description">Football association of Serbia</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            <hr class="footer-divider">
+
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3 class="footer-title">Super league</h3>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/SuperLigaSrbijeOfficial/" target="_blank"><img src="../../images/facebook.svg" alt="Facebook"></a>
+                        <a href="https://x.com/superligasrbija" target="_blank"><img src="../../images/x.svg" alt="X (Twitter)"></a>
+                        <a href="https://www.youtube.com/user/SuperligaSrbija" target="_blank"><img src="../../images/youtube.svg" alt="YouTube"></a>
+                        <a href="https://www.instagram.com/superligasrbije_official/" target="_blank"><img src="../../images/instagram.svg" alt="Instagram"></a>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="../../admin.html">Home</a></li>
+                            <li><a href="adminteamslist.html">Teams list</a></li>
+                            <li><a href="adminfixture.html">Fixture</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Stats</h4>
+                        <ul>
+                            <li><a href="adminstats.html">Most goals</a></li>
+                            <li><a href="adminstats.html">Most assists</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Social</h4>
+                        <ul>
+                            <li><a href="https://www.facebook.com/SuperLigaSrbijeOfficial/" target="_blank">Facebook</a></li>
+                            <li><a href="https://x.com/superligasrbija" target="_blank">X</a></li>
+                            <li><a href="https://www.youtube.com/user/SuperligaSrbija" target="_blank">YouTube</a></li>
+                            <li><a href="https://www.instagram.com/superligasrbije_official/" target="_blank">Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+    <div id="playerPopup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="close-button" aria-label="Close popup">&times;</button>
+            <h3 id="popupTitle">Player Statistics</h3> <div id="popupBody">
+                <p><strong>Name:</strong> <span id="popupName"></span></p>
+                <p><strong>Country:</strong> <span id="popupCountry"></span></p>
+                <p><strong>Age:</strong> <span id="popupAge"></span></p>
+                <p><strong>Appearances:</strong> <span id="popupAppearance"></span></p>
+                <p><strong>Minutes Played:</strong> <span id="popupMinutes"></span></p>
+                <p><strong>Goals:</strong> <span id="popupGoals"></span></p>
+                <p><strong>Assists:</strong> <span id="popupAssists"></span></p>
+                <p><strong>Yellow Cards:</strong> <span id="popupYellowCards"></span></p>
+                <p><strong>Red Cards:</strong> <span id="popupRedCards"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle dropdown when dots button is clicked
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.dots-button').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Prevent event from bubbling up
+                    const actions = this.closest('.player-actions');
+                    // Close others if open
+                    document.querySelectorAll('.player-actions').forEach(a => {
+                        if (a !== actions) a.classList.remove('show-menu');
+                    });
+                    // Toggle this one
+                    actions.classList.toggle('show-menu');
+                });
+            });
+
+            // Close dropdown if clicking outside
+            document.addEventListener('click', function () {
+                document.querySelectorAll('.player-actions').forEach(a => {
+                    a.classList.remove('show-menu');
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select ALL tables with the class 'squad-table'
+            const squadTables = document.querySelectorAll('.squad-table'); // Use querySelectorAll
+            const popupOverlay = document.getElementById('playerPopup');
+            // We don't need popupContent directly if we target specific spans
+            // const popupContent = document.querySelector('.popup-content');
+            const closeButton = document.querySelector('.close-button');
+
+            // Get references to the span elements inside the popup
+            const popupName = document.getElementById('popupName');
+            const popupCountry = document.getElementById('popupCountry');
+            const popupAge = document.getElementById('popupAge');
+            const popupMinutes = document.getElementById('popupMinutes');
+            const popupGoals = document.getElementById('popupGoals');
+            const popupAssists = document.getElementById('popupAssists');
+            const popupTitle = document.getElementById('popupTitle'); // Reference to title
+
+            // Function to display player stats in the popup
+            function showPlayerStats(playerName) {
+                // In a real application, you would fetch the player stats from a database or an API.
+                // For this example, we'll use a hardcoded object.
+                const playerStats = {
+                    // Use consistent naming (with Serbian characters)
+                    'Luka Nikolić': {
+                        name: 'Luka Nikolić',
+                        country: 'Srbija',
+                        age: 28,
+                        minutes: 2520,
+                        goals: 12,
+                        assists: 8,
+                    },
+                    'Stefan Marković': {
+                        name: 'Stefan Marković',
+                        country: 'Srbija',
+                        age: 30,
+                        minutes: 2700,
+                        goals: 5,
+                        assists: 3,
+                    },
+                    'Marko Petrović': {
+                        name: 'Marko Petrović',
+                        country: 'Crna Gora',
+                        age: 35,
+                        minutes: 1220,
+                        goals: 2,
+                        assists: 1,
+
+                    },
+                    // Add more players here...
+                };
+
+                // Get the player's stats. If not found, provide a default message.
+                const stats = playerStats[playerName] || { name: playerName, error: 'Stats not found for this player.' };
+
+                // Clear previous content (important if showing error)
+                popupName.textContent = '';
+                popupCountry.textContent = '';
+                popupAge.textContent = '';
+                popupMinutes.textContent = '';
+                popupGoals.textContent = '';
+                popupAssists.textContent = '';
+                popupTitle.textContent = 'Player Statistics'; // Reset title
+
+                if (stats.error) {
+                    // Display error message (maybe in the name field or create a dedicated error area)
+                    popupName.textContent = stats.name;
+                    popupCountry.textContent = stats.error; // Show error in a field
+                    popupTitle.textContent = 'Error'; // Update title for error
+                } else {
+                    // Populate the popup with the player's stats
+                    popupName.textContent = stats.name || 'N/A'; // Add fallbacks
+                    popupCountry.textContent = stats.country || 'N/A';
+                    popupAge.textContent = stats.age || 'N/A';
+                    popupMinutes.textContent = stats.minutes || 'N/A';
+                    popupGoals.textContent = stats.goals || 'N/A';
+                    popupAssists.textContent = stats.assists || 'N/A';
+                    popupTitle.textContent = `${stats.name} - Stats`; // Set title to player name
+                }
+                // Show the popup
+                popupOverlay.style.display = 'flex';
+            }
+
+            // Add click event listeners to each player row in ALL found squad tables
+            squadTables.forEach(table => { // Iterate over each table
+                const playerRows = table.querySelectorAll('tbody tr'); // Get rows for THIS table
+                playerRows.forEach(row => {
+                    const playerNameCell = row.querySelector('td:nth-child(2)'); // Target the 2nd cell
+                    if (playerNameCell) {
+                        // Make the cell clickable
+                        playerNameCell.style.cursor = 'pointer';
+                        playerNameCell.style.color = '#0C4077'; // Indicate clickability
+                        playerNameCell.style.fontWeight = '600';
+
+                        playerNameCell.addEventListener('click', (event) => {
+                            // Prevent triggering clicks on other elements inside the cell if any
+                            event.stopPropagation();
+                            const playerName = playerNameCell.textContent.trim();
+                            if (playerName) { // Ensure the cell is not empty
+                                showPlayerStats(playerName);
+                            }
+                        });
+
+                        // Optional: Add hover effect
+                        playerNameCell.addEventListener('mouseover', () => {
+                            playerNameCell.style.textDecoration = 'underline';
+                        });
+                        playerNameCell.addEventListener('mouseout', () => {
+                            playerNameCell.style.textDecoration = 'none';
+                        });
+                    }
+                });
+            });
+
+
+            // Close the popup when the close button is clicked
+            if (closeButton) { // Check if button exists
+                closeButton.addEventListener('click', () => {
+                    popupOverlay.style.display = 'none';
+                });
+            }
+
+
+            // Close the popup when clicking outside the content area
+            if (popupOverlay) { // Check if overlay exists
+                popupOverlay.addEventListener('click', (event) => {
+                    // Check if the click was directly on the overlay, not on its children
+                    if (event.target === popupOverlay) {
+                        popupOverlay.style.display = 'none';
+                    }
+                });
+            }
+
+        });
+    </script>
+
+
+
+
+    <!-- Create Player Modal -->
+    <div id="create-player-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Create New Player</h2>
+            <form id="create-player-form">
+                <label>
+                    <span>First Name:</span>
+                    <input type="text" name="firstName" required>
+                </label>
+                <label>
+                    <span>Last Name:</span>
+                    <input type="text" name="lastName" required>
+                </label>
+                <label>
+                    <span>Team:</span>
+                    <select name="team" required>
+                        <option value="" disabled selected>Select Team</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Position:</span>
+                    <input type="text" name="position" required>
+                </label>
+                <label>
+                    <span>Nationality:</span>
+                    <input type="text" name="nationality" required>
+                </label>
+                <label>
+                    <span>Jersey Number:</span>
+                    <input type="number" name="jerseyNumber" required class="input-small">
+                </label>
+                <label>
+                    <span>Age:</span>
+                    <input type="number" name="age" required class="input-small">
+                </label>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-create">Create</button>
+                    <button type="button" onclick="closeModal('create-player-modal')" class="btn-cancel">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- Add Existing Player Modal -->
+    <div id="add-existing-player-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Add Existing Player</h2>
+            <form id="add-existing-player-form">
+                <div class="autocomplete-container">
+                    <label for="player-search-input">Search Player:</label>
+                    <input type="text" id="player-search-input" placeholder="Type player's name..." autocomplete="off" required>
+                    <ul id="player-suggestions" class="suggestions hidden"></ul>
+                </div>
+
+                <input type="hidden" name="playerId" id="selected-player-id" required>
+
+                <label>
+                    Jersey Number:
+                    <input type="number" name="jerseyNumber" required>
+                </label>
+
+                <label>
+                    Assign to Team:
+                    <select name="teamId" id="team-select" required>
+                        <option value="" disabled selected>Select Team</option>
+                        <!-- Teams will be loaded here -->
+                    </select>
+                </label>
+
+
+
+                <div class="form-buttons">
+                    <button type="submit">Add Player</button>
+                    <button type="button" onclick="closeModal('add-existing-player-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Player Modal -->
+    <div id="edit-player-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Edit Player</h2>
+            <form id="edit-player-form">
+                <div class="form-columns">
+                    <!-- Player Details Column -->
+                    <div class="player-details-column">
+                        <label>
+                            <span>First Name:</span>
+                            <input type="text" name="firstName" required>
+                        </label>
+                        <label>
+                            <span>Last Name:</span>
+                            <input type="text" name="lastName" required>
+                        </label>
+                        <label>
+                            <span>Position:</span>
+                            <input type="text" name="position" required>
+                        </label>
+                        <label>
+                            <span>Nationality:</span>
+                            <input type="text" name="nationality" required>
+                        </label>
+                        <label>
+                            <span>Jersey Number:</span>
+                            <input type="number" name="jerseyNumber" required>
+                        </label>
+                        <label>
+                            <span>Age:</span>
+                            <input type="number" name="age" required>
+                        </label>
+                    </div>
+
+                    <!-- Player Stats Column -->
+                    <div class="player-stats-column">
+                        <label>
+                            <span>Goals:</span>
+                            <input type="number" name="goals" min="0">
+                        </label>
+                        <label>
+                            <span>Assists:</span>
+                            <input type="number" name="assists" min="0">
+                        </label>
+                        <label>
+                            <span>Minutes Played:</span>
+                            <input type="number" name="minutesPlayed" min="0">
+                        </label>
+                        <label>
+                            <span>Appearances:</span>
+                            <input type="number" name="appearances" min="0">
+                        </label>
+                        <label>
+                            <span>Yellow Cards:</span>
+                            <input type="number" name="yellowCards" min="0">
+                        </label>
+                        <label>
+                            <span>Red Cards:</span>
+                            <input type="number" name="redCards" min="0">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="form-buttons">
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onclick="closeModal('edit-player-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Delete Player Modal -->
+    <div id="delete-player-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Delete Player</h2>
+            <p id="delete-player-message">Are you sure you want to delete this player?</p>
+            <div class="form-buttons">
+                <button id="confirm-delete-player">Yes</button>
+                <button type="button" onclick="closeModal('delete-player-modal')">No</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</body>
+</html>
+

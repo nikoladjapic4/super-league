@@ -1,0 +1,566 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams list</title>
+    <link rel="stylesheet" href="../css/adminteamslist.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" href="../../images/superliga.svg" type="image/svg">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">
+                <img src="../../images/superliga-logo1.svg" alt="Logo Super lige Srbije">
+            </h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../../admin.html" class="active">Home</a></li>
+                    <li><a href="adminteamslist.html" class="active">Teams list</a></li>
+                    <li><a href="adminstats.html" class="active">Stats</a></li>
+                    <li><a href="adminfixture.html" class="active">Fixture</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="admin-bar">
+                🔒 You are in Admin Mode
+            </div>
+
+            <section class="teams-section">
+                <div class="teams-header">
+                    <div class="header-left">
+                        <h2>Teams list</h2>
+                        <p class="season">Season 2024/2025</p>
+                    </div>
+                    <div class="header-right">
+                        <button class="create-team-button">Create Team</button>
+                        <button class="edit-team-button">Add Team</button>
+                    </div>
+                </div>
+
+                <div class="teams-grid">
+                    <div class="team-item-container bg-red">
+                        <a href="crvena-zvezda.html" class="team-link">
+                            <img src="../../images/crvena-zvezda.svg" alt="Crvena zvezda logo">
+                            <p>Crvena zvezda</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-zvezda">Edit</a>
+                                <button class="delete-button" data-teamid="zvezda">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-yellow">
+                        <a href="cukaricki.html" class="team-link">
+                            <img src="../../images/cukaricki.svg" alt="Čukarički logo">
+                            <p>Čukarički</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-cukaricki">Edit</a>
+                                <button class="delete-button" data-teamid="cukaricki">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-dark">
+                        <a href="imt.html" class="team-link">
+                            <img src="../../images/imt.svg" alt="IMT logo">
+                            <p>IMT</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-imt">Edit</a>
+                                <button class="delete-button" data-teamid="imt">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-red">
+                        <a href="jedinstvo-ub.html" class="team-link">
+                            <img src="../../images/jedinstvo-ub.svg" alt="Jedinstvo logo">
+                            <p>Jedinstvo</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-jedinstvo">Edit</a>
+                                <button class="delete-button" data-teamid="jedinstvo">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-blue">
+                        <a href="mladost-lucani.html" class="team-link">
+                            <img src="../../images/mladost.svg" alt="Mladost Lučani logo">
+                            <p>Mladost Lučani</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-mladost">Edit</a>
+                                <button class="delete-button" data-teamid="mladost">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-red">
+                        <a href="napredak-krusevac.html" class="team-link">
+                            <img src="../../images/napredak.svg" alt="Napredak Kruševac logo">
+                            <p>Napredak Kruševac</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-napredak">✏️ Edit</a>
+                                <button class="delete-button" data-teamid="napredak">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-blue">
+                        <a href="novi-pazar.html" class="team-link">
+                            <img src="../../images/novi-pazar.svg" alt="Novi Pazar logo">
+                            <p>Novi Pazar</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-novipazar">✏️ Edit</a>
+                                <button class="delete-button" data-teamid="novipazar">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-blue">
+                        <a href="ofk-beograd.html" class="team-link">
+                            <img src="../../images/ofk-beograd.svg" alt="OFK Beograd logo">
+                            <p>OFK Beograd</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-ofkbeograd">✏️ Edit</a>
+                                <button class="delete-button" data-teamid="ofkbeograd">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-dark">
+                        <a href="adminteampage.html" class="team-link">
+                            <img src="../../images/partizan.svg" alt="Partizan logo">
+                            <p>Partizan</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-partizan">✏️ Edit</a>
+                                <button class="delete-button" data-teamid="partizan">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-red">
+                        <a href="radnicki-1923.html" class="team-link">
+                            <img src="../../images/radnicki-1923.svg" alt="Radnički 1923 logo">
+                            <p>Radnički 1923</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-radnicki1923">Edit</a>
+                                <button class="delete-button" data-teamid="radnicki1923">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-red">
+                        <a href="radnicki-nis.html" class="team-link">
+                            <img src="../../images/radnicki-nis.svg" alt="Radnički Niš logo">
+                            <p>Radnički Niš</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-radnickinis">Edit</a>
+                                <button class="delete-button" data-teamid="radnickinis">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-blue">
+                        <a href="spartak-subotica.html" class="team-link">
+                            <img src="../../images/spartak.svg" alt="Spartak Subotica logo">
+                            <p>Spartak Subotica</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-spartak">Edit</a>
+                                <button class="delete-button" data-teamid="spartak">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-blue">
+                        <a href="tekstilac-odzaci.html" class="team-link">
+                            <img src="../../images/tekstilac.svg" alt="Tekstilac Odžaci logo">
+                            <p>Tekstilac Odžaci</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-tekstilac">Edit</a>
+                                <button class="delete-button" data-teamid="tekstilac">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-dark">
+                        <a href="tsc.html" class="team-link">
+                            <img src="../../images/tsc.svg" alt="TSC logo">
+                            <p>TSC</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-tsc">Edit</a>
+                                <button class="delete-button" data-teamid="tsc">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-red">
+                        <a href="vojvodina.html" class="team-link">
+                            <img src="../../images/vojvodina.svg" alt="Vojvodina logo">
+                            <p>Vojvodina</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-vojvodina">Edit</a>
+                                <button class="delete-button" data-teamid="vojvodina">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-item-container bg-blue">
+                        <a href="zeleznicar-pancevo.html" class="team-link">
+                            <img src="../../images/zeleznicar.svg" alt="Železničar Pančevo logo">
+                            <p>Železničar Pančevo</p>
+                        </a>
+                        <div class="team-options">
+                            <button class="team-options-button" aria-label="Opcije za tim">...</button>
+                            <div class="team-options-dropdown">
+                                <a href="#edit-team-zeleznicar">Edit</a>
+                                <button class="delete-button" data-teamid="zeleznicar">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+
+    <footer class="main-footer-section">
+        <div class="container">
+            <section class="organisations-section">
+                <h2 class="section-title">Organisations</h2>
+                <div class="organisations-container">
+                    <a href="https://www.fifa.com/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-fifa" src="../../images/fifa.svg" alt="FIFA logo">
+                            <div class="org-text">
+                                <div class="org-name">FIFA</div>
+                                <div class="org-description">Fédération Internationale de<br>Football Association</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.uefa.com/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-uefa" src="../../images/uefa.svg" alt="UEFA logo">
+                            <div class="org-text">
+                                <div class="org-name">UEFA</div>
+                                <div class="org-description">Union of European Football Associations</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://fss.rs/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-fss" src="../../images/fss.svg" alt="FSS logo">
+                            <div class="org-text">
+                                <div class="org-name">FSS</div>
+                                <div class="org-description">Football association of Serbia</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            <hr class="footer-divider">
+
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3 class="footer-title">Super league</h3>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/SuperLigaSrbijeOfficial/" target="_blank"><img src="../../images/facebook.svg" alt="Facebook"></a>
+                        <a href="https://x.com/superligasrbija" target="_blank"><img src="../../images/x.svg" alt="X (Twitter)"></a>
+                        <a href="https://www.youtube.com/user/SuperligaSrbija" target="_blank"><img src="../../images/youtube.svg" alt="YouTube"></a>
+                        <a href="https://www.instagram.com/superligasrbije_official/" target="_blank"><img src="../../images/instagram.svg" alt="Instagram"></a>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="../../admin.html">Home</a></li>
+                            <li><a href="adminteamslist.html">Teams list</a></li>
+                            <li><a href="adminfixture.html">Fixture</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Stats</h4>
+                        <ul>
+                            <li><a href="adminstats.html">Most goals</a></li>
+                            <li><a href="adminstats.html">Most assists</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Social</h4>
+                        <ul>
+                            <li><a href="https://www.facebook.com/SuperLigaSrbijeOfficial/" target="_blank">Facebook</a></li>
+                            <li><a href="https://x.com/superligasrbija" target="_blank">X</a></li>
+                            <li><a href="https://www.youtube.com/user/SuperligaSrbija" target="_blank">YouTube</a></li>
+                            <li><a href="https://www.instagram.com/superligasrbije_official/" target="_blank">Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Create Team Modal -->
+    <div id="create-team-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Create New Team</h2>
+            <form id="create-team-form">
+                <label><span>Team Name:</span> <input type="text" name="teamName" required></label>
+
+                <label><span>Stadium:</span> <input type="text" name="stadium"></label>
+                <label><span>Location:</span> <input type="text" name="location"></label>
+                <label><span>Season:</span> <input type="text" name="season" class="input-small" required></label>
+                <label><span>Year of Foundation:</span> <input type="number" name="foundationYear" class="input-small"></label>
+
+                <div class="form-buttons">
+                    <button type="submit">Create</button>
+                    <button type="button" onclick="closeModal('create-team-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Edit Team Modal -->
+    <div id="edit-team-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Edit Team</h2>
+            <form id="edit-team-form">
+                <div class="team-info">
+                    <label><span>Team Name:</span> <input type="text" name="teamName" required></label>
+                    <label><span>Season:</span> <input type="text" name="season" required></label>
+                    <label><span>Stadium:</span> <input type="text" name="stadium"></label>
+                    <label><span>Location:</span> <input type="text" name="location"></label>
+                </div>
+
+                <div class="team-stats">
+                    <label><span>Wins:</span> <input type="number" name="wins"></label>
+                    <label><span>Losses:</span> <input type="number" name="losses"></label>
+                    <label><span>Draws:</span> <input type="number" name="draws"></label>
+                    <label><span>Goals Scored:</span> <input type="number" name="goalsScored"></label>
+                    <label><span>Goals Against:</span> <input type="number" name="goalsAgainst"></label>
+                    <label><span>Points:</span> <input type="number" name="points"></label>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onclick="closeModal('edit-team-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Existing Team Modal -->
+    <div id="add-existing-team-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Add Existing Team</h2>
+            <form id="add-existing-team-form">
+                <div class="autocomplete-container">
+                    <label for="team-search-input">Search Team:</label>
+                    <input type="text" id="team-search-input" placeholder="Type teams's name..." autocomplete="off" required>
+                    <ul id="team-suggestions" class="suggestions hidden"></ul>
+                </div>
+
+                <input type="hidden" name="teamId" id="selected-team-id" required>
+
+
+
+                <label>
+                    Assign to Season:
+                    <select name="seasonId" id="season-select" required>
+                        <option value="" disabled selected>Select Season</option>
+                        <!-- Teams will be loaded here -->
+                    </select>
+                </label>
+
+
+
+                <div class="form-buttons">
+                    <button type="submit">Add Team</button>
+                    <button type="button" onclick="closeModal('add-existing-team-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-team-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Delete Team</h2>
+            <p id="delete-message">Are you sure you want to delete team?</p>
+            <div class="form-buttons">
+                <button id="confirm-delete">Yes</button>
+                <button type="button" onclick="closeModal('delete-team-modal')">No</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get references to the buttons and modals
+            const createTeamButton = document.querySelector('.create-team-button');
+            const addExistingTeamButton = document.querySelector('.edit-team-button');
+            const editTeamLinks = document.querySelectorAll('.team-options-dropdown a[href^="#edit-team-"]');
+            const deleteTeamButtons = document.querySelectorAll('.team-options-dropdown .delete-button');
+            const teamOptionsButtons = document.querySelectorAll('.team-options-button');
+
+            const createTeamModal = document.getElementById('create-team-modal');
+            const addExistingTeamModal = document.getElementById('add-existing-team-modal');
+            const editTeamModal = document.getElementById('edit-team-modal');
+            const deleteTeamModal = document.getElementById('delete-team-modal');
+            const deleteMessage = document.getElementById('delete-message');
+            const confirmDeleteButton = document.getElementById('confirm-delete');
+            
+
+            // Function to open a modal by its ID
+            function openModal(modal) {
+                modal.classList.remove('hidden');
+            }
+
+            // Function to close a modal by its ID
+            function closeModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('hidden');
+                }
+            }
+
+            // Event listener for the "Create Team" button
+            if (createTeamButton) {
+                createTeamButton.addEventListener('click', function () {
+                    console.log('Create Team button clicked');
+                    openModal(createTeamModal);
+                });
+            }
+
+            // Event listener for the "Add Team" button
+            if (addExistingTeamButton) {
+                addExistingTeamButton.addEventListener('click', function () {
+                    console.log('Add Existing Team button clicked');
+                    openModal(addExistingTeamModal);
+                });
+            }
+
+            // Event listeners for the "Edit" links
+            editTeamLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const teamId = this.getAttribute('href').substring(13);
+                    console.log('Edit link clicked for team:', teamId);
+                    openModal(editTeamModal);
+                    // Add logic here to load team data into the edit form
+                });
+            });
+
+            // Event listeners for the "Delete" buttons
+            deleteTeamButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const teamId = this.getAttribute('data-teamid');
+                    console.log('Delete button clicked for team:', teamId);
+                    deleteMessage.textContent = `Are you sure you want to delete team: ${teamId}?`;
+                    openModal(deleteTeamModal);
+
+                    confirmDeleteButton.onclick = function () {
+                        console.log('Confirm Delete button clicked. Deleting team:', teamId);
+                        // Add your logic here to send a request to delete the team
+                        closeModal('delete-team-modal');
+                    };
+                });
+            });
+
+            teamOptionsButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.stopPropagation(); // ✅ Prevents click from reaching window
+                    const dropdown = this.nextElementSibling;
+                    if (dropdown && dropdown.classList.contains('team-options-dropdown')) {
+                        dropdown.classList.toggle('show');
+                    }
+                });
+            });
+
+
+            // Close dropdown when clicking outside
+            window.addEventListener('click', function (event) {
+                if (!event.target.matches('.team-options-button')) {
+                    const dropdowns = document.querySelectorAll('.team-options-dropdown');
+                    dropdowns.forEach(dropdown => {
+                        if (dropdown.classList.contains('show')) {
+                            console.log('Clicked outside, hiding dropdown');
+                            dropdown.classList.remove('show');
+                        }
+                    });
+                }
+            });
+
+            // Close modal functionality
+            const closeButtons = document.querySelectorAll('.modal .modal-content button[onclick^="closeModal"]');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const modalId = this.getAttribute('onclick').split("'")[1];
+                    console.log('Close button clicked for modal:', modalId);
+                    closeModal(modalId);
+                });
+            });
+        });</script>
+    
+</body>
+</html>
+
+

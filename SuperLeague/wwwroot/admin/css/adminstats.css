@@ -1,0 +1,273 @@
+﻿:root {
+    --primary-blue: #0C4077;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --bg-red: #cc0000;
+    --bg-yellow: #ffcc00;
+    --bg-blue: #0055aa;
+    --bg-dark: #222222;
+    --border-color: #555555;
+    --border-light: #ccc;
+    --table-row-alt: #f9f9f9;
+    --team-primary-color: var(--bg-blue);
+    --team-secondary-color: var(--bg-red);
+    --team-tertiary-color: var(--bg-yellow)
+}
+
+body {
+    font-family: Arial,sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: var(--text-dark)
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-inline: 15px;
+    width: 100%
+}
+
+.admin-bar {
+    background-color: var(--bg-yellow);
+    color: var(--text-dark);
+    text-align: center;
+    padding: 8px 15px;
+    font-weight: 600;
+    font-size: .9rem;
+    letter-spacing: .5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    margin-block-end: 20px;
+    border-radius: 4px
+}
+
+.top-players-section {
+    margin: 20px auto;
+    max-width: 1200px;
+    text-align: center;
+    color: var(--primary-blue);
+    font-weight: 700
+}
+
+.tables-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around
+}
+
+.most-assists-table-container, .most-goals-table-container {
+    flex: 1 1 300px;
+    margin-bottom: 20px
+}
+
+    .most-assists-table-container h3, .most-goals-table-container h3 {
+        margin: 0 0 10px;
+        color: var(--primary-blue);
+        text-align: center
+    }
+
+.most-assists-table, .most-goals-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--text-light);
+    box-shadow: 0 2px 5px rgba(0,0,0,.1)
+}
+
+thead {
+    background-color: #f7f7f7;
+    color: var(--text-dark);
+    font-weight: 700
+}
+
+td, th {
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    transition: background-color .2s ease
+}
+
+tbody tr:last-child td {
+    border-bottom: none
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--table-row-alt)
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1
+}
+
+td:nth-child(1), td:nth-child(4), th:nth-child(1), th:nth-child(4) {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-blue)
+}
+
+td:nth-child(3) {
+    text-align: center
+}
+
+.player-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-light);
+    background-color: #eee
+}
+
+.edit-btn, .save-btn {
+    background-color: var(--primary-blue);
+    color: var(--text-light);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: .75rem;
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    transition: background-color .3s ease,transform .2s ease;
+    padding: 6px 10px
+}
+
+    .edit-btn:hover, .save-btn:hover {
+        background-color: #082c53;
+        transform: translateY(-1px)
+    }
+
+    .edit-btn:focus, .save-btn:focus {
+        outline: 2px solid var(--primary-blue);
+        outline-offset: 2px
+    }
+
+    .edit-btn:active {
+        transform: scale(.95)
+    }
+
+.edit-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    overflow: auto;
+    background-color: rgba(0,0,0,.4);
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.modal-content {
+    background-color: var(--text-light);
+    padding: 20px 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,.2);
+    position: relative;
+    animation: fadeIn .3s ease-in-out
+}
+
+    .modal-content h3 {
+        margin-top: 0;
+        color: var(--primary-blue);
+        text-align: center
+    }
+
+    .modal-content label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 700;
+        color: var(--text-dark)
+    }
+
+    .modal-content input[type=number], .modal-content input[type=text] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+        border: 1px solid var(--border-light);
+        border-radius: 6px
+    }
+
+#editForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px
+}
+
+#playerName, #statValue {
+    padding: 8px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    text-align: center
+}
+
+#playerName {
+    width: 80%
+}
+
+#statValue {
+    width: 80px
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #888
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(.9)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+@media (max-width:768px) {
+    .tables-container {
+        align-items: center
+    }
+
+    .player-logo {
+        width: 25px;
+        height: 25px
+    }
+
+    td, th {
+        padding: 8px 6px;
+        font-size: .9rem
+    }
+
+    .edit-btn {
+        padding: 4px 8px;
+        font-size: .7rem
+    }
+}
+
+@media (max-width:480px) {
+    .modal-content {
+        width: 75%
+    }
+
+    .player-logo {
+        width: 18px;
+        height: 18px
+    }
+
+    td, th {
+        padding: 6px 4px
+    }
+}

@@ -1,0 +1,230 @@
+﻿
+.fixture-header-section {
+    margin-bottom: 20px;
+    padding: 25px 20px;
+    background: var(--primary-blue,#0c4077);
+    color: var(--text-light,#fff);
+    border-radius: 8px;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0
+}
+
+.fixtures-title {
+    margin: 0 0 5px 0;
+    font-size: 2.2em;
+    font-weight: 700;
+    font-family: Inter,sans-serif
+}
+
+.fixtures-subtitle {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 400;
+    font-family: Inter,sans-serif;
+    opacity: .9
+}
+
+.gameweek-navigation {
+    padding: 25px 20px;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    margin-bottom: 30px;
+    margin-left: 0;
+    margin-right: 0
+}
+
+    .gameweek-navigation h2 {
+        margin: 0 0 25px;
+        font-size: 1.8em;
+        color: var(--primary-blue,#0c4077);
+        text-align: center;
+        font-weight: 600;
+        font-family: Inter,sans-serif
+    }
+
+.rounds {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px
+}
+
+.round-button {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--primary-blue);
+    border-radius: 20%;
+    background: var(--bg-yellow);
+    color: var(--text-dark);
+    font-size: 1.2em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color .2s;
+}
+
+    .round-button:hover {
+        background: var(--primary-blue);
+        color: var(--text-light)
+    }
+
+    .round-button.active {
+        background: var(--bg-red);
+        color: var(--text-light);
+        border-color: #a00000
+    }
+.fixture-table-wrapper {
+    width: 100%;
+    margin: 20px 0 40px 0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    font-family: Roboto,sans-serif
+}
+
+    .fixture-table-wrapper h2 {
+        padding: 20px;
+        margin: 0;
+        font-size: 1.8em;
+        font-weight: 700;
+        color: var(--primary-blue);
+        background-color: #f0f4f8;
+        border-bottom: 2px solid var(--primary-blue);
+        text-align: left
+    }
+
+    .fixture-table-wrapper .table-responsive {
+        width: 100%
+    }
+
+    .fixture-table-wrapper table {
+        width: 100%;
+        border-collapse: collapse
+    }
+
+    .fixture-table-wrapper thead {
+        background: #f7f7f7;
+        color: var(--text-dark);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: .8em;
+        letter-spacing: .5px
+    }
+
+    .fixture-table-wrapper td, .fixture-table-wrapper th {
+        padding: 10px 8px;
+        text-align: center;
+        border: 1px solid #eee;
+        font-size: .9em;
+        white-space: nowrap;
+        transition: background .2s ease;
+        vertical-align: middle
+    }
+
+        .fixture-table-wrapper td.result, .fixture-table-wrapper th:nth-child(4) {
+            color: var(--primary-blue);
+            font-weight: 700
+        }
+
+    .fixture-table-wrapper tbody tr:nth-child(odd) {
+        background-color: #fafafa
+    }
+
+    .fixture-table-wrapper tbody tr:hover {
+        background-color: #f0f0f0
+    }
+
+    .fixture-table-wrapper td img.team-logo-small {
+        width: 24px;
+        height: 24px;
+        margin-right: 6px;
+        vertical-align: middle
+    }
+
+    .fixture-table-wrapper td:nth-child(3), .fixture-table-wrapper td:nth-child(5), .fixture-table-wrapper th:nth-child(3), .fixture-table-wrapper th:nth-child(5) {
+        text-align: left;
+        padding-left: 15px;
+        vertical-align: middle
+    }
+
+@media (max-width:768px) {
+    .fixtures-title {
+        font-size: 2em
+    }
+
+    .fixtures-subtitle {
+        font-size: 1em
+    }
+
+    .gameweek-navigation h2 {
+        font-size: 1.4em
+    }
+
+    .fixture-table-wrapper td:nth-child(2), .fixture-table-wrapper td:nth-child(6), .fixture-table-wrapper th:nth-child(2), .fixture-table-wrapper th:nth-child(6) {
+        display: none
+    }
+
+    .fixture-table-wrapper td, .fixture-table-wrapper th {
+        padding: 10px 6px;
+        font-size: .85em
+    }
+
+        .fixture-table-wrapper td:nth-child(3), .fixture-table-wrapper td:nth-child(5), .fixture-table-wrapper th:nth-child(3), .fixture-table-wrapper th:nth-child(5) {
+            padding-left: 8px;
+            white-space: normal
+        }
+
+        .fixture-table-wrapper td.result {
+            min-width: 40px
+        }
+}
+
+@media (max-width:480px) {
+    .fixtures-title {
+        font-size: 1.8em
+    }
+
+    .fixtures-subtitle {
+        font-size: .9em
+    }
+
+    .gameweek-navigation {
+        padding: 20px 15px
+    }
+
+        .gameweek-navigation h2 {
+            font-size: 1.3em;
+            margin-bottom: 20px
+        }
+
+    .fixture-table-wrapper h2 {
+        font-size: 1.2em;
+        padding: 12px 15px
+    }
+
+    .fixture-table-wrapper td, .fixture-table-wrapper th {
+        font-size: .75em;
+        padding: 8px 4px;
+        white-space: normal
+    }
+
+        .fixture-table-wrapper td:nth-child(3), .fixture-table-wrapper td:nth-child(5), .fixture-table-wrapper th:nth-child(3), .fixture-table-wrapper th:nth-child(5) {
+            padding-left: 5px
+        }
+
+        .fixture-table-wrapper td.result {
+            min-width: 35px;
+            font-size: .8em
+        }
+
+    .team-logo-small {
+        width: 18px;
+        height: 18px;
+        margin-right: 5px
+    }
+}
+
+    

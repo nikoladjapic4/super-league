@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Super league</title>
+    <link rel="stylesheet" href="public/css/home.css">
+    <link rel="stylesheet" href="public/css/fixture.css">
+    <link rel="stylesheet" href="public/css/header.css">
+    <link rel="stylesheet" href="public/css/footer.css">
+    <link rel="icon" href="images/superliga.svg" type="image/svg">
+</head>
+<body>
+
+
+
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">
+                <img src="images/superliga-logo1.svg" alt="Serbian Super league">
+            </h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="public/html/teamslist.html" class="active">Teams list</a></li>
+                    <li><a href="public/html/stats.html" class="active">Stats</a></li>
+                    <li><a href="public/html/fixture.html" class="active">Fixture</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <section class="league-header">
+                <div class="header-content">
+                    <h2>Mozzart Bet Super Liga Srbije</h2>
+                    <p>Season 2024/2025</p>
+                </div>
+            </section>
+
+            <div class="signin-wrapper">
+                <a href="public/html/login.html" class="signin-button">Sign In</a>
+            </div>
+
+            <div class="main-content">
+                <section class="league-table-container">
+                    <h2>League Table</h2>
+                    <div class="filter-controls">
+                        <div class="top-row">
+                            <button id="filterToggleBtn">Filter matches</button>
+                            <button id="resetFilterBtn">Reset</button>
+                        </div>
+                        <div id="filterOptions">
+                            <button class="filter-option" data-count="5">5</button>
+                            <button class="filter-option" data-count="10">10</button>
+                            <button class="filter-option" data-count="15">15</button>
+                            <button class="filter-option" data-count="20">20</button>
+                            <button class="filter-option" data-count="25">25</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-long="Position" data-short="#"></th>
+                                    <th data-long="Club" data-short="Club"></th>
+                                    <th data-long="Wins" data-short="W"></th>
+                                    <th data-long="Draws" data-short="D"></th>
+                                    <th data-long="Losses" data-short="L"></th>
+                                    <th data-long="Goals For" data-short="GF"></th>
+                                    <th data-long="Goals Against" data-short="GA"></th>
+                                    <th data-long="Goals Difference" data-short="GD"></th>
+                                    <th data-long="Points" data-short="Pts"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="club">FK Partizan</td>
+                                    <td>25</td>
+                                    <td>5</td>
+                                    <td>3</td>
+                                    <td>68</td>
+                                    <td>20</td>
+                                    <td>+48</td>
+                                    <td>80</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td class="club">FK Crvena Zvezda</td>
+                                    <td>24</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td>75</td>
+                                    <td>22</td>
+                                    <td>+53</td>
+                                    <td>78</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td class="club">TSC Bačka Topola</td>
+                                    <td>19</td>
+                                    <td>8</td>
+                                    <td>6</td>
+                                    <td>55</td>
+                                    <td>30</td>
+                                    <td>+25</td>
+                                    <td>65</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td class="club">FK Čukarički</td>
+                                    <td>18</td>
+                                    <td>7</td>
+                                    <td>8</td>
+                                    <td>48</td>
+                                    <td>35</td>
+                                    <td>+13</td>
+                                    <td>61</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td class="club">FK Vojvodina</td>
+                                    <td>15</td>
+                                    <td>10</td>
+                                    <td>8</td>
+                                    <td>40</td>
+                                    <td>32</td>
+                                    <td>+8</td>
+                                    <td>55</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="fixture-table-wrapper">
+                    <h2>Fixture - Next Round</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Host</th>
+                                    <th>Result</th>
+                                    <th>Guest</th>
+                                    <th>Stadium</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>21-04-2025</td>
+                                    <td>19:00</td>
+                                    <td><img src="images/crvena-zvezda.svg" alt="CZV Logo" class="team-logo-small"> Crvena zvezda</td>
+                                    <td class="result">3 - 1</td>
+                                    <td><img src="images/vojvodina.svg" alt="VOJ Logo" class="team-logo-small"> Vojvodina</td>
+                                    <td>Stadion Rajko Mitić</td>
+                                </tr>
+                                <tr>
+                                    <td>22-04-2025</td>
+                                    <td>17:00</td>
+                                    <td><img src="images/partizan.svg" alt="PAR Logo" class="team-logo-small"> Partizan</td>
+                                    <td class="result">? - ?</td>
+                                    <td><img src="images/radnicki-nis.svg" alt="RNI Logo" class="team-logo-small"> Radnički Niš</td>
+                                    <td>Stadion Partizana</td>
+                                </tr>
+                                <tr>
+                                    <td>23-04-2025</td>
+                                    <td>21:00</td>
+                                    <td><img src="images/cukaricki.svg" alt="CUK Logo" class="team-logo-small"> Čukarički</td>
+                                    <td class="result">-</td>
+                                    <td><img src="images/tsc.svg" alt="TSC Logo" class="team-logo-small"> TSC</td>
+                                    <td>Stadion na Banovom brdu</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer-section">
+        <div class="container">
+            <section class="organisations-section">
+                <h2 class="section-title">Organisations</h2>
+                <div class="organisations-container">
+                    <a href="https://www.fifa.com/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-fifa" src="images/fifa.svg" alt="FIFA logo">
+                            <div class="org-text">
+                                <div class="org-name">FIFA</div>
+                                <div class="org-description">Fédération Internationale de<br>Football Association</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.uefa.com/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-uefa" src="images/uefa.svg" alt="UEFA logo">
+                            <div class="org-text">
+                                <div class="org-name">UEFA</div>
+                                <div class="org-description">Union of European Football Associations</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://fss.rs/" target="_blank" class="organisation-item">
+                        <div class="organisation-content">
+                            <img class="org-logo logo-fss" src="images/fss.svg" alt="FSS logo">
+                            <div class="org-text">
+                                <div class="org-name">FSS</div>
+                                <div class="org-description">Football association of Serbia</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+            </section>
+            <hr class="footer-divider">
+
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3 class="footer-title">Super league</h3>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/SuperLigaSrbijeOfficial/" target="_blank"><img src="images/facebook.svg" alt="Facebook"></a>
+                        <a href="https://x.com/superligasrbija" target="_blank"><img src="images/x.svg" alt="X (Twitter)"></a>
+                        <a href="https://www.youtube.com/user/SuperligaSrbija" target="_blank"><img src="images/youtube.svg" alt="YouTube"></a>
+                        <a href="https://www.instagram.com/superligasrbije_official/" target="_blank"><img src="images/instagram.svg" alt="Instagram"></a>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="public/html/teamslist.html">Teams list</a></li>
+                            <li><a href="public/html/fixture.html">Fixture</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Stats</h4>
+                        <ul>
+                            <li><a href="public/html/stats.html">Most goals</a></li>
+                            <li><a href="public/html/stats.html">Most assists</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Social</h4>
+                        <ul>
+                            <li><a href="https://www.facebook.com/SuperLigaSrbijeOfficial/" target="_blank">Facebook</a></li>
+                            <li><a href="https://x.com/superligasrbija" target="_blank">X</a></li>
+                            <li><a href="https://www.youtube.com/user/SuperligaSrbija" target="_blank">YouTube</a></li>
+                            <li><a href="https://www.instagram.com/superligasrbije_official/" target="_blank">Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

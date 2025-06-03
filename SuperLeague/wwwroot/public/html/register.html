@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="icon" href="../../images/superliga.svg" type="image/svg">
+</head>
+<body>
+
+
+
+   
+            <header class="main-header">
+                <div class="container">
+                    <h1 class="logo">
+                        <img src="../../images/superliga-logo1.svg" alt="Serbian Super league">
+                    </h1>
+                    <nav class="main-nav">
+                        <ul>
+                            <li><a href="../../index.html" class="active">Home</a></li>
+                            <li><a href="teamslist.html" class="active">Teams list</a></li>
+                            <li><a href="stats.html" class="active">Stats</a></li>
+                            <li><a href="fixture.html" class="active">Fixture</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+
+            <div class="register-header">
+                <div class="header-content">
+                    <h1 class="register-title">Register</h1>
+                    <p class="register-subtitle">Create new Account for Serbian Super league</p>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <section class="register-container">
+                    <h2>Create New Account</h2>
+
+                    <form action="/register" method="POST">
+                        <div class="input-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="confirm_password">Confirm Password:</label>
+                            <input type="password" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <button type="submit" class="register-button">Create Account</button>
+                    </form>
+
+                    <p class="already-have-account">
+                        <a href="login.html">Already have an account?</a>
+                    </p>
+                </section>
+            </div>
+       
+
+    <footer class="main-footer-section">
+        <div class="container">
+        </div>
+    </footer>
+</body>
+</html>

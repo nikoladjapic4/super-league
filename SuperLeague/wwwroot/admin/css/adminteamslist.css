@@ -1,0 +1,724 @@
+﻿:root {
+    --primary-blue: #0C4077;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --bg-red: #cc0000;
+    --bg-yellow: #ffcc00;
+    --bg-blue: #0055aa;
+    --bg-dark: #222222;
+    --border-color: #555555;
+    --team-primary-color: #0055aa;
+    --team-secondary-color: #cc0000;
+    --team-tertiary-color: #ffcc00
+}
+
+body {
+    font-family: Arial,sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    color: var(--text-dark);
+    overflow-x: hidden
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: content-box
+}
+
+.admin-bar {
+    background-color: #fc0;
+    color: var(--text-dark);
+    text-align: center;
+    padding: 8px 15px;
+    font-weight: 600;
+    font-size: .9em;
+    letter-spacing: .5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    margin-bottom: 20px;
+    border-radius: 4px;
+    margin-left: 0;
+    margin-right: 0
+}
+
+.teams-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column
+}
+
+    .header-left h2 {
+        font-size: 2.8em;
+        margin-bottom: 5px;
+        color: #0c4076
+    }
+
+    .header-left .season {
+        font-size: 1.3em;
+        color: #666;
+        margin: 0
+    }
+
+.header-right {
+    display: flex;
+    gap: 10px
+}
+
+.season {
+    font-size: 1.3em;
+    color: #666;
+    margin-bottom: 30px
+}
+
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px
+}
+
+@media (max-width:768px) {
+    .teams-grid {
+        grid-template-columns: repeat(2,1fr)
+    }
+
+    .teams-section h2 {
+        font-size: 1.8em
+    }
+}
+
+@media (max-width:480px) {
+    .teams-grid {
+        grid-template-columns: 1fr
+    }
+}
+
+.team-item-container {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px 10px;
+    text-align: center;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    position: relative;
+    transition: transform .2s ease-in-out,box-shadow .2s ease-in-out,background-color .2s ease-in-out;
+    cursor: pointer;
+    text-decoration: none
+}
+
+    .team-item-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,.1);
+        background-color: #d1d3d4
+    }
+
+    .team-item-container.bg-red:hover {
+        background-color: #fcafaf
+    }
+
+    .team-item-container.bg-blue:hover {
+        background-color: #9dccfb
+    }
+
+    .team-item-container.bg-yellow:hover {
+        background-color: #ffffb0;
+        color: var(--text-dark)
+    }
+
+    .team-item-container.bg-dark:hover {
+        background-color: #9a9a9a
+    }
+
+    .team-item-container img, .team-link img {
+        max-width: 80px;
+        height: auto;
+        margin-bottom: 15px
+    }
+
+    .team-item-container p, .team-link p {
+        margin: 0;
+        font-weight: 700;
+        font-size: 1em
+    }
+
+.bg-red {
+    background-color: var(--bg-red);
+    color: var(--text-light)
+}
+
+.bg-yellow {
+    background-color: var(--bg-yellow);
+    color: var(--text-dark)
+}
+
+.bg-blue {
+    background-color: var(--bg-blue);
+    color: var(--text-light)
+}
+
+.bg-dark {
+    background-color: var(--bg-dark);
+    color: var(--text-light)
+}
+
+.team-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.bg-yellow .team-link {
+    color: var(--text-dark)
+}
+
+.team-options {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10
+}
+
+.team-options-button {
+    background: 0 0;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    outline: 0
+}
+
+    .team-options-button:hover {
+        opacity: .8
+    }
+
+.team-options-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    display: none;
+    min-width: 130px;
+    padding: 4px 0;
+    overflow: hidden
+}
+
+    .team-options-dropdown.show {
+        display: block
+    }
+
+    .team-options-dropdown a, .team-options-dropdown button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 4px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #0c4077;
+        text-decoration: none;
+        background: content-box;
+        border: none;
+        width: 100%;
+        cursor: pointer;
+        transition: background-color .2s
+    }
+
+        .team-options-dropdown a:hover, .team-options-dropdown button:hover {
+            background-color: #f0f0f0
+        }
+
+    .team-options-dropdown .delete-button {
+        color: #c62828;
+        font-weight: 700
+    }
+
+        .team-options-dropdown .delete-button:hover {
+            background-color: #fdecea
+        }
+
+.create-team-button, .edit-team-button {
+    background-color: #0c4077;
+    color: var(--text-light);
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 50px;
+    margin-right: 25px;
+    transition: background-color .3s ease;
+    outline: 0;
+    justify-self: end
+}
+
+    .create-team-button:hover, .edit-team-button:hover {
+        background-color: #fc0;
+        color: #000
+    }
+
+@media (max-width:600px) {
+    .teams-header {
+        flex-direction: column;
+        align-items: flex-start
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20,20,20,.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000
+}
+
+    .modal.hidden {
+        display: none
+    }
+
+.modal-content {
+    background-color: #fff;
+    padding: 40px;
+    width: 800px;
+    max-width: 95%;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,.4);
+    color: #222;
+    font-size: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f4f4f4
+}
+
+    .modal-content h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: #c00;
+        text-transform: uppercase;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 12px
+    }
+
+    .modal-content label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 16px
+    }
+
+    .modal-content input[type=number], .modal-content input[type=text] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        margin-top: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box
+    }
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px
+}
+
+    .form-buttons button {
+        padding: 10px 18px;
+        font-weight: 600;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color .3s ease
+    }
+
+        #confirm-delete, .form-buttons button[type=submit] {
+            background-color: #c00;
+            color: #fff
+        }
+
+        .form-buttons button[type=button] {
+            background-color: #ccc;
+            color: #222
+        }
+
+        .form-buttons button:hover {
+            opacity: .9
+        }
+
+#add-existing-team-modal .modal-content {
+    max-width: 550px
+}
+
+#add-existing-team-modal .autocomplete-container {
+    position: relative;
+    margin-bottom: 18px
+}
+
+    #add-existing-team-modal .autocomplete-container label[for=team-search-input] > span {
+        display: block;
+        margin-bottom: 6px
+    }
+
+    #add-existing-team-modal .autocomplete-container #team-search-input {
+        width: 100%;
+        padding: 9px 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        border: 1px solid #bbb;
+        font-family: Orbitron,sans-serif;
+        box-sizing: border-box;
+        transition: border-color .2s ease,box-shadow .2s ease
+    }
+
+        #add-existing-team-modal .autocomplete-container #team-search-input:focus {
+            border-color: #c00;
+            box-shadow: 0 0 0 2px rgba(192,0,0,.25);
+            outline: 0
+        }
+
+    #add-existing-team-modal .autocomplete-container #team-suggestions {
+        position: absolute;
+        top: calc(100% + 2px);
+        left: 0;
+        right: 0;
+        border: 1px solid #ccc;
+        border-top: none;
+        background-color: #fff;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        z-index: 10;
+        border-radius: 0 0 5px 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,.1)
+    }
+
+        #add-existing-team-modal .autocomplete-container #team-suggestions.hidden {
+            display: none
+        }
+
+        #add-existing-team-modal .autocomplete-container #team-suggestions li {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333
+        }
+
+            #add-existing-team-modal .autocomplete-container #team-suggestions li:hover {
+                background-color: #f0f0f0
+            }
+
+            #add-existing-team-modal .autocomplete-container #team-suggestions li.selected {
+                background-color: #e0e0e0;
+                color: #222;
+                font-weight: 700
+            }
+
+#add-existing-team-modal label[for=season-select] > span {
+    display: block;
+    margin-bottom: 6px
+}
+
+#add-existing-team-modal #season-select {
+    width: 100%;
+    padding: 9px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    font-family: Orbitron,sans-serif;
+    box-sizing: border-box;
+    transition: border-color .2s ease,box-shadow .2s ease
+}
+
+    #add-existing-team-modal #season-select:focus {
+        border-color: #c00;
+        box-shadow: 0 0 0 2px rgba(192,0,0,.25);
+        outline: 0
+    }
+
+#add-existing-team-modal .form-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px
+}
+
+    #add-existing-team-modal .form-buttons button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: Orbitron,sans-serif
+    }
+
+        #add-existing-team-modal .form-buttons button[type=submit] {
+            background-color: #c6363c;
+            color: #fff
+        }
+
+        #add-existing-team-modal .form-buttons button[type=button] {
+            background-color: #6c757d;
+            color: #fff
+        }
+
+        #add-existing-team-modal .form-buttons button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed
+        }
+
+#create-team-modal .modal-content form#create-team-form {
+    display: flex;
+    flex-direction: column
+}
+
+    #create-team-modal .modal-content form#create-team-form label {
+        display: flex;
+        align-items: center
+    }
+
+        #create-team-modal .modal-content form#create-team-form label > span {
+            flex-shrink: 0;
+            width: 150px;
+            margin-right: 10px
+        }
+
+        #create-team-modal .modal-content form#create-team-form label > input[type=text] {
+            width: 450px;
+            padding: 6px 8px;
+            font-size: 20px;
+            margin-top: 0;
+            border-radius: 6px
+        }
+
+        #create-team-modal .modal-content form#create-team-form label > input.input-small {
+            width: 200px;
+            font-size: 14px;
+            padding: 8px 10px
+        }
+
+    #create-team-modal .modal-content form#create-team-form .form-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px
+    }
+
+#edit-team-modal #edit-team-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(350px,1fr));
+    gap: 50px
+}
+
+    #edit-team-modal #edit-team-form .team-info, #edit-team-modal #edit-team-form .team-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 10px
+    }
+
+        #edit-team-modal #edit-team-form .team-info label, #edit-team-modal #edit-team-form .team-stats label {
+            display: flex;
+            align-items: center
+        }
+
+            #edit-team-modal #edit-team-form .team-info label > span, #edit-team-modal #edit-team-form .team-stats label > span {
+                flex-shrink: 0;
+                width: 150px;
+                margin-right: 10px
+            }
+
+            #edit-team-modal #edit-team-form .team-info label > input[type=text], #edit-team-modal #edit-team-form .team-stats label > input[type=number] {
+                flex-grow: 0;
+                padding: 10px;
+                font-size: 14px;
+                border-radius: 6px;
+                border: 1px solid #ccc;
+                box-sizing: border-box
+            }
+
+            #edit-team-modal #edit-team-form .team-stats label > input[type=number] {
+                width: 70px
+            }
+
+    #edit-team-modal #edit-team-form .form-buttons {
+        grid-column: 1/-1;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 20px
+    }
+
+@media (max-width:868px) {
+    .modal-content {
+        width: 80%;
+        padding: 20px
+    }
+
+    #edit-team-modal #edit-team-form {
+        grid-template-columns: 1fr;
+        gap: 15px
+    }
+
+        #edit-team-modal #edit-team-form .team-info label, #edit-team-modal #edit-team-form .team-stats label {
+            flex-direction: row;
+            align-items: center
+        }
+
+            #edit-team-modal #edit-team-form .team-info label > span, #edit-team-modal #edit-team-form .team-stats label > span {
+                width: 120px;
+                margin-right: 10px;
+                margin-bottom: 0
+            }
+
+            #edit-team-modal #edit-team-form .team-info label > input[type=text], #edit-team-modal #edit-team-form .team-stats label > input[type=number] {
+                width: auto;
+                flex-grow: 1
+            }
+
+            #edit-team-modal #edit-team-form .team-stats label > input[type=number] {
+                width: 70px;
+                flex-grow: 0
+            }
+
+    #create-team-modal .modal-content {
+        width: 80%;
+        padding: 20px
+    }
+
+        #create-team-modal .modal-content form#create-team-form label {
+            flex-direction: column;
+            align-items: flex-start
+        }
+
+            #create-team-modal .modal-content form#create-team-form label > span {
+                width: auto;
+                margin-right: 0;
+                margin-bottom: 5px
+            }
+
+            #create-team-modal .modal-content form#create-team-form label > input[type=number], #create-team-modal .modal-content form#create-team-form label > input[type=text] {
+                width: 100%;
+                font-size: 14px
+            }
+
+            #create-team-modal .modal-content form#create-team-form label > input[name=foundationYear], #create-team-modal .modal-content form#create-team-form label > input[name=season] {
+                width: 200px;
+                font-size: 14px;
+                padding: 8px 10px
+            }
+
+        #create-team-modal .modal-content form#create-team-form .form-buttons {
+            flex-direction: row;
+            justify-content: flex-end;
+            flex-wrap: wrap
+        }
+
+            #create-team-modal .modal-content form#create-team-form .form-buttons button {
+                font-size: 12px;
+                padding: 8px 12px;
+                flex-basis: auto
+            }
+
+    .form-buttons {
+        flex-direction: row;
+        justify-content: flex-end;
+        flex-wrap: wrap
+    }
+
+        .form-buttons button {
+            font-size: 12px;
+            padding: 6px 12px;
+            flex-basis: auto
+        }
+}
+
+@media (max-width:480px) {
+    .modal-content {
+        padding: 15px
+    }
+
+        .modal-content h2 {
+            font-size: 16px
+        }
+
+        .modal-content label {
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start
+        }
+
+            .modal-content label > span {
+                margin-bottom: 5px
+            }
+
+    #edit-team-modal #edit-team-form .team-info label > input[type=text] {
+        font-size: 12px;
+        padding: 6px 8px;
+        width: 100%;
+        box-sizing: border-box
+    }
+
+    #edit-team-modal #edit-team-form .team-stats label > input[type=number] {
+        font-size: 12px;
+        padding: 6px 8px;
+        width: 60px;
+        box-sizing: border-box
+    }
+
+    #create-team-modal .modal-content form#create-team-form label > input[type=number], #create-team-modal .modal-content form#create-team-form label > input[type=text] {
+        font-size: 12px;
+        padding: 6px 8px;
+        width: 100%
+    }
+
+    #create-team-modal .modal-content form#create-team-form label > input[name=foundationYear], #create-team-modal .modal-content form#create-team-form label > input[name=season] {
+        font-size: 12px;
+        padding: 6px 8px;
+        width: 150px
+    }
+
+    #create-team-modal .modal-content form#create-team-form .form-buttons button {
+        font-size: 10px;
+        padding: 6px 10px
+    }
+
+    .form-buttons button {
+        font-size: 10px;
+        padding: 4px 8px
+    }
+}
