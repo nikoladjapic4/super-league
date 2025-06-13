@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SuperLeague.DTOs;
 using SuperLeague.Interfaces;
 using SuperLeague.Models;
 
@@ -23,6 +24,8 @@ namespace SuperLeague.Controllers
             var teams = await _teamRepository.GetAllAsync();
             return Ok(teams);
         }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -32,59 +35,87 @@ namespace SuperLeague.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Team team)
+        public async Task<IActionResult> Create([FromBody] CreateTeamDto dto)
         {
-            var exists = await _teamRepository.TeamExistingAsync(team.TeamName, team.City);
+            var exists = await _teamRepository.TeamExistingAsync(dto.TeamName, dto.City);
             if (exists)
             {
                 return Conflict("Team already exists.");
             }
 
-            team.CreatedAt = DateTime.UtcNow;
-            team.CreatedBy = 1;
+            var team = new Team
+            {
+                TeamName = dto.TeamName,
+                DateOfFoundation = dto.DateOfFoundation,
+                Stadium = dto.Stadium,
+                City = dto.City,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = 1,
+                IsActive = true
+
+            };
+
 
             await _teamRepository.AddAsync(team);
-            return Ok(new {message = "Team created successfully."});
+            return Ok(new { message = "Team created successfully." });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Team updatedTeam)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateTeamDto dto)
         {
             var existingTeam = await _teamRepository.GetByIdAsync(id);
             if (existingTeam == null)
+            {
                 return NotFound();
+            }
 
             if (existingTeam.LockedAt != null)
-                return Conflict("Team is currently locked by someone else.");
-            
-            updatedTeam.TeamId = id;
-            updatedTeam.VersionRow = existingTeam.VersionRow;
-            updatedTeam.LockedAt = DateTime.UtcNow;
-            
-            
-            
-            var success = await _teamRepository.UpdateAsync(updatedTeam);
-            if (!success)
-                return Conflict("Team has been locked by someone else.");
-            return Ok("Team is successfully updated.");
+                return Conflict($"Team is currently locked by someone else. Locked at: {existingTeam.LockedAt}");
+
+            if (existingTeam.VersionRow.SequenceEqual(dto.VersionRow))
+            {
+                existingTeam.TeamName = dto.TeamName;
+                existingTeam.DateOfFoundation = dto.DateOfFoundation;
+                existingTeam.Stadium = dto.Stadium;
+                existingTeam.City = dto.City;
+
+
+                var success = await _teamRepository.UpdateAsync(existingTeam);
+                if (!success)
+                {
+                    return Conflict("Team has been locked by someone else.");
+                }
+
+                return Ok("Team is successfully updated.");
+            }
+
+            return Conflict("This data has been modified by someone else. Please refresh and try again.");
         }
 
         [HttpDelete("{id}")]
 
         public async Task<IActionResult> Delete(int id)
         {
-            
+
             var team = await _teamRepository.GetByIdAsync(id);
             if (team == null)
                 return NotFound();
 
-            if(team.LockedAt != null)
-                return Conflict("Team has been locked by someone else.");
+            if (team.IsActive == false)
+                return Conflict("Team is already deleted.");
 
-            await _teamRepository.SoftDeleteAsync(id, team.VersionRow, 1);
+            if (team.LockedAt != null)
+                return Conflict($"Team '{team.TeamName}' is currently locked by someone else. Locked at: {team.LockedAt}");
+
+            var success = await _teamRepository.SoftDeleteAsync(id, team.VersionRow, 1);
+
+            if (!success)
+            {
+                return Conflict($"Couldn't delete team '{team.TeamName}'. Team is locked by someone else.");
+            }
             return Ok("Team is successfully deleted.");
         }
-        
+
 
 
 
@@ -98,35 +129,6 @@ namespace SuperLeague.Controllers
         }
 
 
-        /*
-        [HttpGet]
-        public IActionResult GetAllTeams()
-        {
-            var teams = new[]
-            {
-                new { Id = 1, TeamName = "Red Star" },
-                new { Id = 2, TeamName = "Partizan" }
-            };
 
-            return Ok(teams);
-        }
-
-        [HttpGet("{teamId}")]
-        public IActionResult GetTeam(int teamId)
-        {
-            var teams = new[]
-            {
-            new { Id = 1, TeamName = "Red Star" },
-            new { Id = 2, TeamName = "Partizan" }
-        };
-
-            var team = teams.FirstOrDefault(t => t.Id == teamId);
-
-            if (team == null)
-                return NotFound();
-
-            return Ok(team);
-        }
-        */
     }
 }

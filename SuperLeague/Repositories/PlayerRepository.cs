@@ -16,6 +16,7 @@ namespace SuperLeague.Repositories
 
         private IDbConnection Connection => new SqlConnection(_connectionString);
 
+
         public async Task<IEnumerable<Player>> GetAllAsync(int teamId)
         {
             using var db = Connection;
@@ -45,6 +46,7 @@ namespace SuperLeague.Repositories
              
         }
 
+      
        /* public async Task<Player?> GetBasicByIdAsync (int playerId)
         {
             using var db = Connection;
@@ -78,6 +80,46 @@ namespace SuperLeague.Repositories
                 GROUP BY S.SeasonName, LTT.TeamName, P.PlayerFirstName, P.PlayerLastName, T.TeamID, P.PlayerID
                 ORDER BY S.SeasonName, T.TeamID;";
             return await db.QueryAsync<PlayerStats>(query, new { PlayerId = playerId });
+        }
+
+        public async Task AddAsync(Player player, int teamId)
+        {
+            using var db = (SqlConnection)Connection;
+            await db.OpenAsync();               //NE RADI OVO JOS
+            using var transaction = db.BeginTransaction();
+
+            try
+            {
+                player.CreatedAt = DateTime.UtcNow;
+                player.IsActive = true;
+
+                var insertedPlayerQuery = @"
+                    INSERT INTO Player 
+                            (PlayerFirstName,PlayerLastName, JerseyNumber,Position, BirthDate, CreatedAt, CreatedBy, IsActive)
+                    OUTPUT INSERTED.PlayerID
+                    VALUES    
+                            (@PlayerFirstName, @PlayerLastName, @JerseyNumber, @Position, @BirthDate, @CreatedAt, @CreatedBy, @IsActive)";
+                var playerId = await db.ExecuteScalarAsync<int>(insertedPlayerQuery, player, transaction);
+
+                var insertPlayerTeamQuery = @"
+                    INSERT INTO Player_Team (PlayerID, TeamID, StartDate)
+                    VALUE (@PlayerID, @TeamID, @StartDate);";
+
+                await db.ExecuteAsync (insertPlayerTeamQuery, new 
+                {
+                    PlayerId = playerId,
+                    TeamId = teamId,
+                    StartDate = DateTime.UtcNow
+                }, transaction);
+
+                transaction.Commit();
+            }
+
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
     }
 }

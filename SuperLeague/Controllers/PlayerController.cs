@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperLeague.Interfaces;
+using SuperLeague.Models;
 
 
 namespace SuperLeague.Controllers
@@ -30,7 +31,13 @@ namespace SuperLeague.Controllers
             return stats == null || !stats.Any() ? NotFound() : Ok(stats);
         }
 
-        
+        [HttpPost("{teamId}/players")]
+
+        public async Task<IActionResult> AddPlayer([FromBody] Player player, [FromQuery] int teamId)
+        {
+            await _playerRepository.AddAsync(player, teamId);
+            return Ok("Player added successfully");
+        }
 
 
 

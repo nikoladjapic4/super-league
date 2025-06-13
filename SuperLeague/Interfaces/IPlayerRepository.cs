@@ -6,8 +6,9 @@ namespace SuperLeague.Interfaces
     {
         Task<IEnumerable<Player>> GetAllAsync(int teamId);
 
-        Task<Player?> GetBasicByIdAsync(int playerId);
+        //Task<Player?> GetBasicByIdAsync(int playerId);
         Task<IEnumerable<PlayerStats>> GetStatsByIdAsync(int playerId);
+        Task AddAsync(Player player, int teamId);
 
     }
 }

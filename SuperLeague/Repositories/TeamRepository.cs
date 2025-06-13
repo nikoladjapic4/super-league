@@ -63,7 +63,7 @@ namespace SuperLeague.Repositories
             using var db = Connection;
             var query = @"UPDATE Team 
                           SET IsActive = 0, DeletedAt = GETUTCDATE(), DeletedBy = @DeletedBy
-                         WHERE TeamId = @TeamId AND VersionTeam = @VersionRow";
+                         WHERE TeamId = @TeamId AND VersionTeam = @VersionRow AND IsActive = 1";
             var affected = await db.ExecuteAsync(query, new { TeamId = teamId, VersionRow = versionRow, DeletedBy = deletedBy });
             return affected > 0;
         }
@@ -73,7 +73,7 @@ namespace SuperLeague.Repositories
             using var db = Connection;
             var query = @"UPDATE Team
                           SET IsActive = 1, DeletedAt = NULL, DeletedBy = NULL
-                          WHERE TeamId = @TeamId";
+                          WHERE TeamId = @TeamId AND IsActive = 0";
             var affected = await db.ExecuteAsync(query, new {TeamId = teamId});
             return affected > 0;
         }

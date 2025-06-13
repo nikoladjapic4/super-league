@@ -17,6 +17,8 @@ app.UseHttpsRedirection();
 app.UseDefaultFiles(); // traži index.html
 app.UseStaticFiles();
 
+
+
 app.UseRouting();
 app.MapControllers();
 

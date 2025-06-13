@@ -12,6 +12,6 @@
         public DateTime? DeletedAt { get; set; }
         public int? DeletedBy { get; set; }
 
-        public  byte[]? VersionRow { get; set; }
+        public byte[]? VersionRow { get; set; }
     }
 }
