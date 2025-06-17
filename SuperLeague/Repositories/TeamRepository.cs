@@ -50,7 +50,7 @@ namespace SuperLeague.Repositories
         public async Task<bool> UpdateAsync(Team team)
         {
             using var db = Connection;
-            
+
             var query = @"UPDATE Team 
                           SET TeamName = @TeamName, DateOfFoundation = @DateOfFoundation,Stadium = @Stadium, City = @City, LockedAt = NULL, LockedBy = NULL 
                           WHERE TeamId = @TeamId AND VersionTeam = @VersionRow";
@@ -74,7 +74,7 @@ namespace SuperLeague.Repositories
             var query = @"UPDATE Team
                           SET IsActive = 1, DeletedAt = NULL, DeletedBy = NULL
                           WHERE TeamId = @TeamId AND IsActive = 0";
-            var affected = await db.ExecuteAsync(query, new {TeamId = teamId});
+            var affected = await db.ExecuteAsync(query, new { TeamId = teamId });
             return affected > 0;
         }
 

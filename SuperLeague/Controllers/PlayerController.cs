@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperLeague.DTOs;
 using SuperLeague.Interfaces;
-using SuperLeague.Models;
 
 
 namespace SuperLeague.Controllers
@@ -37,6 +36,7 @@ namespace SuperLeague.Controllers
         [HttpPost("{teamId}/players")]
         public async Task<IActionResult> AddPlayer([FromBody] CreatePlayerDto dto, [FromRoute] int teamId)
         {
+
             try
             {
                 await _playerRepository.AddAsync(dto, teamId);
