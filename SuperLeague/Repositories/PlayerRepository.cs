@@ -3,6 +3,7 @@ using SuperLeague.Interfaces;
 using SuperLeague.Models;
 using System.Data;
 using Dapper;
+using SuperLeague.DTOs;
 
 namespace SuperLeague.Repositories
 {
@@ -47,12 +48,7 @@ namespace SuperLeague.Repositories
         }
 
       
-       /* public async Task<Player?> GetBasicByIdAsync (int playerId)
-        {
-            using var db = Connection;
-            var query = "SELECT * FROM Player WHERE PlayerID = @PlayerID";
-            return await db.QueryFirstOrDefaultAsync<Player>(query, new { PlayerID = playerId });
-        }*/
+       
 
         public async Task<IEnumerable<PlayerStats>> GetStatsByIdAsync(int playerId)
         {
@@ -82,44 +78,95 @@ namespace SuperLeague.Repositories
             return await db.QueryAsync<PlayerStats>(query, new { PlayerId = playerId });
         }
 
-        public async Task AddAsync(Player player, int teamId)
+        public async Task AddAsync(CreatePlayerDto dto, int teamId)
         {
-            using var db = (SqlConnection)Connection;
-            await db.OpenAsync();               //NE RADI OVO JOS
+            using var db = new SqlConnection(_connectionString);
+            await db.OpenAsync();
             using var transaction = db.BeginTransaction();
 
             try
             {
-                player.CreatedAt = DateTime.UtcNow;
-                player.IsActive = true;
+                // Ovde koristiš helper metodu
+                var existingPlayerId = await GetExistingPlayerIdAsync(dto, db, transaction);
+                int playerId;
 
-                var insertedPlayerQuery = @"
-                    INSERT INTO Player 
-                            (PlayerFirstName,PlayerLastName, JerseyNumber,Position, BirthDate, CreatedAt, CreatedBy, IsActive)
-                    OUTPUT INSERTED.PlayerID
-                    VALUES    
-                            (@PlayerFirstName, @PlayerLastName, @JerseyNumber, @Position, @BirthDate, @CreatedAt, @CreatedBy, @IsActive)";
-                var playerId = await db.ExecuteScalarAsync<int>(insertedPlayerQuery, player, transaction);
-
-                var insertPlayerTeamQuery = @"
-                    INSERT INTO Player_Team (PlayerID, TeamID, StartDate)
-                    VALUE (@PlayerID, @TeamID, @StartDate);";
-
-                await db.ExecuteAsync (insertPlayerTeamQuery, new 
+                if (existingPlayerId.HasValue)
                 {
-                    PlayerId = playerId,
-                    TeamId = teamId,
+                    playerId = existingPlayerId.Value;
+                }
+                else
+                {
+                    var player = new Player
+                    {
+                        PlayerFirstName = dto.PlayerFirstName,
+                        PlayerLastName = dto.PlayerLastName,
+                        JerseyNumber = dto.JerseyNumber,
+                        Position = dto.Position,
+                        BirthDate = dto.BirthDate,
+                        Nationality = dto.Nationality,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy = 1,
+                        IsActive = true
+                        
+                    };
+
+                    var insertQuery = @"
+                INSERT INTO Player 
+                        (PlayerFirstName, PlayerLastName, JerseyNumber, Position, BirthDate, CreatedAt, CreatedBy, IsActive, Nationality, LockedBy)
+                OUTPUT INSERTED.PlayerID
+                VALUES 
+                        (@PlayerFirstName, @PlayerLastName, @JerseyNumber, @Position, @BirthDate, @CreatedAt, @CreatedBy, @IsActive, @Nationality, @LockedBy);";
+
+                    playerId = await db.ExecuteScalarAsync<int>(insertQuery, player, transaction);
+                }
+
+                // Provera da li je već dodeljen timu
+                var existingRelation = await db.QueryFirstOrDefaultAsync<int?>(@"
+            SELECT 1 FROM Player_Team
+            WHERE PlayerID = @PlayerId AND TeamID = @TeamId",
+                    new { PlayerId = playerId, TeamId = teamId }, transaction);
+
+                if (existingRelation != null)
+                {
+                    throw new Exception("Player is already assigned to this team.");
+                }
+
+                // Veza igrač-tim
+                var insertRelationQuery = @"
+            INSERT INTO Player_Team (PlayerID, TeamID, StartDate)
+            VALUES (@PlayerID, @TeamID, @StartDate);";
+
+                await db.ExecuteAsync(insertRelationQuery, new
+                {
+                    PlayerID = playerId,
+                    TeamID = teamId,
                     StartDate = DateTime.UtcNow
                 }, transaction);
 
                 transaction.Commit();
             }
-
             catch
             {
                 transaction.Rollback();
                 throw;
             }
         }
+
+
+        public async Task<int?> GetExistingPlayerIdAsync(CreatePlayerDto dto, SqlConnection db,SqlTransaction transaction)
+        {
+            return await db.QueryFirstOrDefaultAsync<int?>
+                (@"SELECT PlayerID FROM Player
+                   WHERE  PlayerFirstName = @PlayerFirstName
+                    AND PlayerLastName = @PlayerLastName
+                    AND BirthDate = @BirthDate",
+                    new
+                    {
+                        dto.PlayerFirstName,
+                        dto.PlayerLastName,
+                        dto.BirthDate
+                    }, transaction);
+        }
+
     }
 }

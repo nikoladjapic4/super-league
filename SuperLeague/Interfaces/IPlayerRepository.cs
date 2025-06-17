@@ -1,4 +1,5 @@
-﻿using SuperLeague.Models;
+﻿using SuperLeague.DTOs;
+using SuperLeague.Models;
 
 namespace SuperLeague.Interfaces
 {
@@ -8,7 +9,7 @@ namespace SuperLeague.Interfaces
 
         //Task<Player?> GetBasicByIdAsync(int playerId);
         Task<IEnumerable<PlayerStats>> GetStatsByIdAsync(int playerId);
-        Task AddAsync(Player player, int teamId);
-
+        
+        Task AddAsync(CreatePlayerDto dto, int teamId);
     }
 }

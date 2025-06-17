@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SuperLeague.DTOs;
 using SuperLeague.Interfaces;
 using SuperLeague.Models;
 
@@ -31,15 +32,21 @@ namespace SuperLeague.Controllers
             return stats == null || !stats.Any() ? NotFound() : Ok(stats);
         }
 
+
+
         [HttpPost("{teamId}/players")]
-
-        public async Task<IActionResult> AddPlayer([FromBody] Player player, [FromQuery] int teamId)
+        public async Task<IActionResult> AddPlayer([FromBody] CreatePlayerDto dto, [FromRoute] int teamId)
         {
-            await _playerRepository.AddAsync(player, teamId);
-            return Ok("Player added successfully");
+            try
+            {
+                await _playerRepository.AddAsync(dto, teamId);
+                return Ok("Player added successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error adding player: {ex.Message}");
+            }
         }
-
-
 
     }
 }
