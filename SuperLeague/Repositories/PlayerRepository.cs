@@ -86,7 +86,7 @@ namespace SuperLeague.Repositories
 
             try
             {
-                // Ovde koristiš helper metodu
+                
                 var existingPlayerId = await GetExistingPlayerIdAsync(dto, db, transaction);
                 int playerId;
 
