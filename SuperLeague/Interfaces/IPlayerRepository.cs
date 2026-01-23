@@ -1,15 +1,14 @@
-﻿using SuperLeague.DTOs;
-using SuperLeague.Models;
+﻿using SuperLeague.Models;
 
 namespace SuperLeague.Interfaces
 {
     public interface IPlayerRepository
     {
-        Task<IEnumerable<Player>> GetAllAsync(int teamId);
-
-        //Task<Player?> GetBasicByIdAsync(int playerId);
-        Task<IEnumerable<PlayerStats>> GetStatsByIdAsync(int playerId);
-        
-        Task AddAsync(CreatePlayerDto dto, int teamId);
+        Task<IEnumerable<Player>> GetAllActiveAsync();
+        Task<Player?> GetByIdAsync(int playerId);
+        Task<int> AddAsync(Player player);
+        Task<bool> UpdateAsync(Player player);
+        Task<bool> ExistsAsync(string firstName, string lastName, DateTime birthDate, int? excludePlayerId = null);
+        Task<Dictionary<string, int>> GetCountByPositionAsync();
     }
 }

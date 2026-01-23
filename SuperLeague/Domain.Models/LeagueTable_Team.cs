@@ -5,6 +5,6 @@
 
         public int LeagueTable_TeamID { get; set; }
         public required string TeamName { get; set; }
-       
+
     }
 }

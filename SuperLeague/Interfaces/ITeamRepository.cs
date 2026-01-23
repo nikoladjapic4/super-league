@@ -1,16 +1,14 @@
-﻿using SuperLeague.Models;
+﻿// Interfaces/ITeamRepository.cs
+using SuperLeague.Models;
 
 namespace SuperLeague.Interfaces
 {
     public interface ITeamRepository
     {
-        Task<IEnumerable<Team>> GetAllAsync();
+        Task<IEnumerable<Team>> GetAllActiveAsync();
         Task<Team?> GetByIdAsync(int teamId);
-        Task AddAsync(Team team);
+        Task<int> AddAsync(Team team); // Returns new TeamId
         Task<bool> UpdateAsync(Team team);
-        Task<bool> SoftDeleteAsync(int teamId, byte[] versionRow, int deletedBy);
-        Task<bool> RestoreAsync(int teamId);
-        Task<bool> TeamExistingAsync(string teamName, string city);
-
+        Task<bool> ExistsAsync(string teamName, string city, int? excludeTeamId = null);
     }
 }

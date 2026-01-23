@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿// Repositories/TeamRepository.cs
+using Dapper;
 using Microsoft.Data.SqlClient;
 using SuperLeague.Interfaces;
 using SuperLeague.Models;
@@ -12,78 +13,117 @@ namespace SuperLeague.Repositories
 
         public TeamRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection")!;
+            _connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string not found");
         }
 
-        private IDbConnection Connection => new SqlConnection(_connectionString);
-        public async Task<IEnumerable<Team>> GetAllAsync()
+        private IDbConnection CreateConnection() => new SqlConnection(_connectionString);
+
+        public async Task<IEnumerable<Team>> GetAllActiveAsync()
         {
-            using var db = Connection;
-            var query = @"SELECT TeamID, TeamName, DateOfFoundation,
-                                  IsActive, CreatedAt, CreatedBy, LockedAt, LockedBy, DeletedAt, DeletedBy, VersionTeam AS VersionRow, Stadium, City
-                          FROM Team";
-            return await db.QueryAsync<Team>(query);
+            using var connection = CreateConnection();
+
+            var sql = @"
+                SELECT 
+                    TeamId,
+                    TeamName,
+                    DateOfFoundation,
+                    Stadium,
+                    City,
+                    IsActive,
+                    CreatedAt,
+                    CreatedBy,
+                    UpdatedAt,
+                    UpdatedBy,
+                    DeletedAt,
+                    DeletedBy,
+                    VersionTeam as VersionRow,
+                    LockedAt,
+                    LockedBy
+                FROM Team
+                WHERE IsActive = 1
+                ORDER BY TeamName";
+
+            return await connection.QueryAsync<Team>(sql);
         }
 
         public async Task<Team?> GetByIdAsync(int teamId)
         {
-            using var db = Connection;
-            var query = @"SELECT TeamID, TeamName, DateOfFoundation, 
-                                  IsActive, CreatedAt, CreatedBy, LockedAt, LockedBy, DeletedAt, DeletedBy, VersionTeam AS VersionRow,  Stadium, City
-                          FROM Team 
-                          WHERE TeamId = @TeamId";
-            return await db.QueryFirstOrDefaultAsync<Team>(query, new { TeamId = teamId });
-        }
-        public async Task AddAsync(Team team)
-        {
-            using var db = Connection;
-            team.CreatedAt = DateTime.UtcNow;
-            team.IsActive = true;
+            using var connection = CreateConnection();
 
-            var query = @"INSERT INTO Team 
-                            (TeamName, DateOfFoundation,Stadium, City, CreatedAt, CreatedBy, IsActive)
-                          VALUES    
-                            (@TeamName, @DateOfFoundation, @Stadium, @City, @CreatedAt, @CreatedBy, @IsActive)";
-            await db.ExecuteAsync(query, team);
+            var sql = @"
+                SELECT 
+                    TeamId,
+                    TeamName,
+                    DateOfFoundation,
+                    Stadium,
+                    City,
+                    IsActive,
+                    CreatedAt,
+                    CreatedBy,
+                    UpdatedAt,
+                    UpdatedBy,
+                    DeletedAt,
+                    DeletedBy,
+                    VersionTeam as VersionRow,
+                    LockedAt,
+                    LockedBy
+                FROM Team
+                WHERE TeamId = @TeamId";
+
+            return await connection.QueryFirstOrDefaultAsync<Team>(sql, new { TeamId = teamId });
+        }
+
+        public async Task<int> AddAsync(Team team)
+        {
+            using var connection = CreateConnection();
+
+            var sql = @"
+                INSERT INTO Team 
+                (TeamName, DateOfFoundation, Stadium, City, CreatedAt, CreatedBy, IsActive)
+                OUTPUT INSERTED.TeamId
+                VALUES 
+                (@TeamName, @DateOfFoundation, @Stadium, @City, @CreatedAt, @CreatedBy, @IsActive)";
+
+            return await connection.ExecuteScalarAsync<int>(sql, team);
         }
 
         public async Task<bool> UpdateAsync(Team team)
         {
-            using var db = Connection;
+            using var connection = CreateConnection();
 
-            var query = @"UPDATE Team 
-                          SET TeamName = @TeamName, DateOfFoundation = @DateOfFoundation,Stadium = @Stadium, City = @City, LockedAt = NULL, LockedBy = NULL 
-                          WHERE TeamId = @TeamId AND VersionTeam = @VersionRow";
-            var affected = await db.ExecuteAsync(query, team);
-            return affected > 0;
+            var sql = @"
+                UPDATE Team 
+                SET 
+                    TeamName = @TeamName,
+                    DateOfFoundation = @DateOfFoundation,
+                    Stadium = @Stadium,
+                    City = @City,
+                    UpdatedAt = @UpdatedAt,
+                    UpdatedBy = @UpdatedBy
+                WHERE TeamId = @TeamId 
+                AND VersionTeam = @VersionRow
+                AND IsActive = 1";
+
+            var rowsAffected = await connection.ExecuteAsync(sql, team);
+            return rowsAffected > 0;
         }
 
-        public async Task<bool> SoftDeleteAsync(int teamId, byte[] versionRow, int deletedBy)
+        public async Task<bool> ExistsAsync(string teamName, string city, int? excludeTeamId = null)
         {
-            using var db = Connection;
-            var query = @"UPDATE Team 
-                          SET IsActive = 0, DeletedAt = GETUTCDATE(), DeletedBy = @DeletedBy
-                         WHERE TeamId = @TeamId AND VersionTeam = @VersionRow AND IsActive = 1";
-            var affected = await db.ExecuteAsync(query, new { TeamId = teamId, VersionRow = versionRow, DeletedBy = deletedBy });
-            return affected > 0;
-        }
+            using var connection = CreateConnection();
 
-        public async Task<bool> RestoreAsync(int teamId)
-        {
-            using var db = Connection;
-            var query = @"UPDATE Team
-                          SET IsActive = 1, DeletedAt = NULL, DeletedBy = NULL
-                          WHERE TeamId = @TeamId AND IsActive = 0";
-            var affected = await db.ExecuteAsync(query, new { TeamId = teamId });
-            return affected > 0;
-        }
+            var sql = @"
+                SELECT COUNT(1) 
+                FROM Team
+                WHERE TeamName = @TeamName 
+                AND City = @City 
+                AND IsActive = 1
+                AND (@ExcludeTeamId IS NULL OR TeamId != @ExcludeTeamId)";
 
-        public async Task<bool> TeamExistingAsync(string teamName, string city)
-        {
-            using var db = Connection;
-            var query = @"SELECT COUNT(*) FROM Team
-                           WHERE TeamName = @TeamName AND City = @City AND IsActive = 1";
-            var count = await db.ExecuteScalarAsync<int>(query, new { TeamName = teamName, City = city });
+            var count = await connection.ExecuteScalarAsync<int>(sql,
+                new { TeamName = teamName, City = city, ExcludeTeamId = excludeTeamId });
+
             return count > 0;
         }
     }

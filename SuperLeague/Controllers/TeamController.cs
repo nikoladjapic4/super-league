@@ -1,134 +1,260 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SuperLeague.DTOs;
+using SuperLeague.DTOs.Team;
+using SuperLeague.Exceptions;
 using SuperLeague.Interfaces;
-using SuperLeague.Models;
-
 
 namespace SuperLeague.Controllers
 {
-    [ApiController] //automatski vraca 400 bad request, parsira JSON iz tela u c# objekat
-    [Route("api/[controller]")] //svi endpointi pocinju sa api/ ime iz _____Controller u mom slucaju team
-
-    public class TeamController : ControllerBase //ControllerBase sluzi za webapi , moze da vraca 
+    [ApiController]
+    [Route("api/[controller]")]
+    public class TeamController : ControllerBase
     {
-        private readonly ITeamRepository _teamRepository;
+        private readonly ITeamService _teamService;
+        private readonly ILogger<TeamController> _logger;
 
-        public TeamController(ITeamRepository teamRepository)
+        public TeamController(
+            ITeamService teamService,
+            ILogger<TeamController> logger)
         {
-            _teamRepository = teamRepository;
+            _teamService = teamService;
+            _logger = logger;
         }
 
+        /// <summary>
+        /// Vraća sve aktivne timove
+        /// GET: api/team
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var teams = await _teamRepository.GetAllAsync();
-            return Ok(teams);
+            try
+            {
+                var teams = await _teamService.GetAllTeamsAsync();
+                return Ok(teams);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom preuzimanja svih timova");
+                return StatusCode(500, new { message = "Došlo je do greške prilikom preuzimanja timova" });
+            }
         }
 
-
+        /// <summary>
+        /// Vraća tim po ID-u
+        /// GET: api/team/{id}
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var team = await _teamRepository.GetByIdAsync(id);
-            return team == null ? NotFound() : Ok(team);
+            try
+            {
+                var team = await _teamService.GetTeamByIdAsync(id);
+                return Ok(team);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom preuzimanja tima {TeamId}", id);
+                return StatusCode(500, new { message = "Došlo je do greške prilikom preuzimanja tima" });
+            }
         }
 
-
+        /// <summary>
+        /// Kreira novi tim
+        /// POST: api/team
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTeamDto dto)
         {
-            var exists = await _teamRepository.TeamExistingAsync(dto.TeamName, dto.City);
-            if (exists)
+            try
             {
-                return Conflict("Team already exists.");
+                // TODO: Kada dodaš autentifikaciju, uzmi stvarni ID korisnika
+                int createdBy = 1; // Hardcoded za sada
+
+                var team = await _teamService.CreateTeamAsync(dto, createdBy);
+
+                return CreatedAtAction(
+                    nameof(Get),
+                    new { id = team.TeamId },
+                    new { message = "Tim je uspešno kreiran", data = team }
+                );
             }
-
-            var team = new Team
+            catch (BusinessRuleException ex)
             {
-                TeamName = dto.TeamName,
-                DateOfFoundation = dto.DateOfFoundation,
-                Stadium = dto.Stadium,
-                City = dto.City,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = 1,
-                IsActive = true
-
-            };
-
-
-            await _teamRepository.AddAsync(team);
-            return Ok(new { message = "Team created successfully." });
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom kreiranja tima");
+                return StatusCode(500, new { message = "Došlo je do greške prilikom kreiranja tima" });
+            }
         }
 
+        /// <summary>
+        /// Ažurira postojeći tim
+        /// PUT: api/team/{id}
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateTeamDto dto)
         {
-            var existingTeam = await _teamRepository.GetByIdAsync(id);
-            if (existingTeam == null)
+            try
             {
-                return NotFound();
+                // TODO: Kada dodaš autentifikaciju, uzmi stvarni ID korisnika
+                int updatedBy = 1; // Hardcoded za sada
+
+                var team = await _teamService.UpdateTeamAsync(id, dto, updatedBy);
+
+                return Ok(new { message = "Tim je uspešno ažuriran", data = team });
             }
-
-            if (existingTeam.LockedAt != null)
-                return Conflict($"Team is currently locked by someone else. Locked at: {existingTeam.LockedAt}");
-
-            if (existingTeam.VersionRow.SequenceEqual(dto.VersionRow))
+            catch (NotFoundException ex)
             {
-                existingTeam.TeamName = dto.TeamName;
-                existingTeam.DateOfFoundation = dto.DateOfFoundation;
-                existingTeam.Stadium = dto.Stadium;
-                existingTeam.City = dto.City;
-
-
-                var success = await _teamRepository.UpdateAsync(existingTeam);
-                if (!success)
-                {
-                    return Conflict("Team has been locked by someone else.");
-                }
-
-                return Ok("Team is successfully updated.");
+                return NotFound(new { message = ex.Message });
             }
-
-            return Conflict("This data has been modified by someone else. Please refresh and try again.");
+            catch (BusinessRuleException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (ConcurrencyException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (TeamLockedException ex) // Nova exception
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom ažuriranja tima {TeamId}", id);
+                return StatusCode(500, new { message = "Došlo je do greške prilikom ažuriranja tima" });
+            }
         }
 
+        /// <summary>
+        /// Soft delete tima
+        /// DELETE: api/team/{id}
+        /// </summary>
         [HttpDelete("{id}")]
-
         public async Task<IActionResult> Delete(int id)
         {
-
-            var team = await _teamRepository.GetByIdAsync(id);
-            if (team == null)
-                return NotFound();
-
-            if (team.IsActive == false)
-                return Conflict("Team is already deleted.");
-
-            if (team.LockedAt != null)
-                return Conflict($"Team '{team.TeamName}' is currently locked by someone else. Locked at: {team.LockedAt}");
-
-            var success = await _teamRepository.SoftDeleteAsync(id, team.VersionRow, 1);
-
-            if (!success)
+            try
             {
-                return Conflict($"Couldn't delete team '{team.TeamName}'. Team is locked by someone else.");
+                // TODO: Kada dodaš autentifikaciju, uzmi stvarni ID korisnika
+                int deletedBy = 1; // Hardcoded za sada
+
+                await _teamService.DeleteTeamAsync(id, deletedBy);
+
+                return Ok(new { message = "Tim je uspešno obrisan" });
             }
-            return Ok("Team is successfully deleted.");
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (BusinessRuleException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (TeamLockedException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom brisanja tima {TeamId}", id);
+                return StatusCode(500, new { message = "Došlo je do greške prilikom brisanja tima" });
+            }
         }
 
-
-
-
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> AddTeam(int id)
+        /// <summary>
+        /// Vraća obrisani tim nazad (restore)
+        /// PATCH: api/team/{id}/restore
+        /// </summary>
+        [HttpPatch("{id}/restore")]
+        public async Task<IActionResult> Restore(int id)
         {
-            var restored = await _teamRepository.RestoreAsync(id);
-            if (!restored)
-                return NotFound("Team not found or already active.");
-            return Ok("Team successfully added back.");
+            try
+            {
+                await _teamService.RestoreTeamAsync(id);
+
+                return Ok(new { message = "Tim je uspešno vraćen" });
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (BusinessRuleException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom vraćanja tima {TeamId}", id);
+                return StatusCode(500, new { message = "Došlo je do greške prilikom vraćanja tima" });
+            }
         }
 
+        /// <summary>
+        /// Zaključava tim za izmene (lock)
+        /// POST: api/team/{id}/lock
+        /// </summary>
+        [HttpPost("{id}/lock")]
+        public async Task<IActionResult> Lock(int id)
+        {
+            try
+            {
+                // TODO: Kada dodaš autentifikaciju, uzmi stvarni ID korisnika
+                int lockedBy = 1;
 
+                await _teamService.LockTeamAsync(id, lockedBy);
 
+                return Ok(new { message = "Tim je zaključan za izmene" });
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (TeamLockedException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom zaključavanja tima {TeamId}", id);
+                return StatusCode(500, new { message = "Došlo je do greške" });
+            }
+        }
+
+        /// <summary>
+        /// Otključava tim (unlock)
+        /// DELETE: api/team/{id}/lock
+        /// </summary>
+        [HttpDelete("{id}/lock")]
+        public async Task<IActionResult> Unlock(int id)
+        {
+            try
+            {
+                // TODO: Kada dodaš autentifikaciju, uzmi stvarni ID korisnika
+                int userId = 1;
+
+                await _teamService.UnlockTeamAsync(id, userId);
+
+                return Ok(new { message = "Tim je otključan" });
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (BusinessRuleException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom otključavanja tima {TeamId}", id);
+                return StatusCode(500, new { message = "Došlo je do greške" });
+            }
+        }
     }
 }
