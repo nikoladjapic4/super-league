@@ -13,5 +13,6 @@ namespace SuperLeague.Interfaces
         Task<bool> RestoreTeamAsync(int teamId);
         Task LockTeamAsync(int teamId, int lockedBy);
         Task UnlockTeamAsync(int teamId, int userId);
+        Task SyncTeamsAsync(int leagueId, int season);
     }
 }

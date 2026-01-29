@@ -20,10 +20,8 @@
         public DateTime? LockedAt { get; set; }
         public int? LockedBy { get; set; }
 
-        // Audit (if not in BaseEntity)
+        // Audit
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public int? UpdatedBy { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿// Repositories/TeamRepository.cs
-using Dapper;
+﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using SuperLeague.Interfaces;
 using SuperLeague.Models;
@@ -33,8 +32,6 @@ namespace SuperLeague.Repositories
                     IsActive,
                     CreatedAt,
                     CreatedBy,
-                    UpdatedAt,
-                    UpdatedBy,
                     DeletedAt,
                     DeletedBy,
                     VersionTeam as VersionRow,
@@ -61,8 +58,6 @@ namespace SuperLeague.Repositories
                     IsActive,
                     CreatedAt,
                     CreatedBy,
-                    UpdatedAt,
-                    UpdatedBy,
                     DeletedAt,
                     DeletedBy,
                     VersionTeam as VersionRow,
@@ -79,14 +74,18 @@ namespace SuperLeague.Repositories
             using var connection = CreateConnection();
 
             var sql = @"
-                INSERT INTO Team 
-                (TeamName, DateOfFoundation, Stadium, City, CreatedAt, CreatedBy, IsActive)
-                OUTPUT INSERTED.TeamId
-                VALUES 
-                (@TeamName, @DateOfFoundation, @Stadium, @City, @CreatedAt, @CreatedBy, @IsActive)";
+                INSERT INTO Team (TeamName, DateOfFoundation, Stadium, City, CreatedAt, CreatedBy, IsActive)
+                OUTPUT INSERTED.TeamId, INSERTED.VersionTeam
+                VALUES (@TeamName, @DateOfFoundation, @Stadium, @City, @CreatedAt, @CreatedBy, @IsActive)
+            ";
 
-            return await connection.ExecuteScalarAsync<int>(sql, team);
+            var result = await connection.QuerySingleAsync<(int TeamId, byte[] VersionRow)>(sql, team);
+
+            team.TeamId = result.TeamId;
+            team.VersionRow = result.VersionRow; // OSVEŽI stvarnu rowversion iz baze
+            return team.TeamId;
         }
+
 
         public async Task<bool> UpdateAsync(Team team)
         {
@@ -99,11 +98,8 @@ namespace SuperLeague.Repositories
                     DateOfFoundation = @DateOfFoundation,
                     Stadium = @Stadium,
                     City = @City,
-                    UpdatedAt = @UpdatedAt,
-                    UpdatedBy = @UpdatedBy
-                WHERE TeamId = @TeamId 
-                AND VersionTeam = @VersionRow
-                AND IsActive = 1";
+                    IsActive = @IsActive
+                WHERE TeamId = @TeamId AND VersionTeam = @VersionRow";
 
             var rowsAffected = await connection.ExecuteAsync(sql, team);
             return rowsAffected > 0;
@@ -125,6 +121,21 @@ namespace SuperLeague.Repositories
                 new { TeamName = teamName, City = city, ExcludeTeamId = excludeTeamId });
 
             return count > 0;
+        }
+        public async Task<Dictionary<string, int>> GetColumnLengthsAsync()
+        {
+            using var connection = CreateConnection();
+            var sql = @"
+                SELECT COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_NAME = 'Team' AND DATA_TYPE IN ('varchar', 'nvarchar', 'char', 'nchar')";
+            
+            var result = await connection.QueryAsync<(string ColumnName, int? MaxLength)>(sql);
+            
+            // Filter out null MaxLengths (e.g. invalid types) and return dictionary
+            return result
+                .Where(x => x.MaxLength.HasValue)
+                .ToDictionary(x => x.ColumnName, x => x.MaxLength!.Value);
         }
     }
 }

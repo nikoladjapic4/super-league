@@ -2,19 +2,23 @@
 using SuperLeague.Exceptions;
 using SuperLeague.Interfaces;
 using SuperLeague.Models;
+using SuperLeague.Repositories;
 
 namespace SuperLeague.Services
 {
     public class PlayerService : IPlayerService
     {
         private readonly IPlayerRepository _playerRepository;
+        private readonly IExternalApiService _externalApiService;
         private readonly ILogger<PlayerService> _logger;
 
         public PlayerService(
             IPlayerRepository playerRepository,
+            IExternalApiService externalApiService,
             ILogger<PlayerService> logger)
         {
             _playerRepository = playerRepository;
+            _externalApiService = externalApiService;
             _logger = logger;
         }
 
@@ -166,10 +170,103 @@ namespace SuperLeague.Services
 
             return success;
         }
-
-        public async Task<Dictionary<string, int>> GetPlayerStatisticsByPositionAsync()
+        public async Task LockPlayerAsync(int playerId, int lockedBy)
         {
-            return await _playerRepository.GetCountByPositionAsync();
+            var player = await _playerRepository.GetByIdAsync(playerId);
+            if (player == null || !player.IsActive)
+            {
+                throw new NotFoundException($"Tim sa ID-om {playerId} nije pronađen");
+            }
+            if (player.LockedAt.HasValue &&
+                    player.LockedAt.Value < DateTime.UtcNow.AddMinutes(-15))
+            {
+                player.LockedAt = null;
+                player.LockedBy = null;
+
+            }
+
+            if (player.LockedBy.HasValue)
+            {
+                throw new TeamLockedException(
+                    $"Tim je već zaključan od strane korisnika (ID: {player.LockedBy})");
+            }
+
+            player.LockedAt = DateTime.UtcNow;
+            player.LockedBy = lockedBy;
+
+            await _playerRepository.UpdateAsync(player);
+
+            _logger.LogInformation("Tim zaključan: {TeamId} od strane {UserId}", playerId, lockedBy);
+        }
+        public async Task UnlockPlayerAsync(int playerId, int userId)
+        {
+            var player = await _playerRepository.GetByIdAsync(playerId);
+            if (player == null || !player.IsActive)
+            {
+                throw new NotFoundException($"Tim sa ID-om {playerId} nije pronađen");
+            }
+
+            if (!player.LockedAt.HasValue)
+            {
+                throw new BusinessRuleException("Igrac nije zaključan");
+            }
+
+            player.LockedAt = null;
+            player.LockedBy = null;
+
+            await _playerRepository.UpdateAsync(player);
+
+            _logger.LogInformation("Igarc je otključan: {PlayerId}", playerId);
+        }
+        public async Task SyncPlayersAsync(int leagueId, int season)
+        {
+            _logger.LogInformation("Započinjem sinhronizaciju igrača za ligu {LeagueId}, sezona {Season}", leagueId, season);
+
+            // Fetch actual DB column limits
+            var columnLimits = await _playerRepository.GetColumnLengthsAsync();
+            var teamNameLimit = columnLimits.GetValueOrDefault("TeamName", 50);
+            var cityLimit = columnLimits.GetValueOrDefault("City", 50);
+            var stadiumLimit = columnLimits.GetValueOrDefault("Stadium", 50);
+
+            _logger.LogInformation("Column limits: TeamName={TeamNameLimit}, City={CityLimit}, Stadium={StadiumLimit}",
+                teamNameLimit, cityLimit, stadiumLimit);
+
+            var apiTeams = await _externalApiService.GetTeamsByLeagueAsync(leagueId, season);
+
+            foreach (var apiTeam in apiTeams)
+            {
+                var teamName = Truncate(apiTeam.Team.Name, teamNameLimit);
+                var city = Truncate(apiTeam.Venue.City, cityLimit);
+
+                // Provera da li tim već postoji u bazi (koristimo postojeći ExistsAsync)
+                var exists = await _teamRepository.ExistsAsync(teamName, city);
+
+                if (!exists)
+                {
+                    var newTeam = new Team
+                    {
+                        TeamName = teamName,
+                        City = city,
+                        Stadium = Truncate(apiTeam.Venue.Name, stadiumLimit),
+                        DateOfFoundation = apiTeam.Team.Founded.HasValue
+                            ? new DateTime(apiTeam.Team.Founded.Value, 1, 1)
+                            : new DateTime(1900, 1, 1),
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedBy = 1, // System/Admin
+                        IsActive = true
+                    };
+
+                    await _teamRepository.AddAsync(newTeam);
+                    _logger.LogInformation("Dodat novi tim: {TeamName}", teamName);
+                }
+                else
+                {
+                    _logger.LogInformation("Tim već postoji: {TeamName}", teamName);
+                    // Ovde bi mogao dodati i update logiku ako želiš da osvežavaš podatke
+                }
+            }
+
+            _logger.LogInformation("Sinhronizacija završena.");
         }
 
         private static PlayerDto MapToDto(Player player)

@@ -9,6 +9,5 @@ namespace SuperLeague.Interfaces
         Task<int> AddAsync(Player player);
         Task<bool> UpdateAsync(Player player);
         Task<bool> ExistsAsync(string firstName, string lastName, DateTime birthDate, int? excludePlayerId = null);
-        Task<Dictionary<string, int>> GetCountByPositionAsync();
     }
 }

@@ -256,5 +256,20 @@ namespace SuperLeague.Controllers
                 return StatusCode(500, new { message = "Došlo je do greške" });
             }
         }
+
+        [HttpPost("sync")]
+        public async Task<IActionResult> Sync([FromQuery]  int leagueId, [FromQuery] int season)
+        {
+            try
+            {
+                await _teamService.SyncTeamsAsync(leagueId, season);
+                return Ok(new { message = "Sinhronizacija timova uspešno završena. Proverite logove ili bazu za detalje." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška prilikom sinhronizacije timova");
+                return StatusCode(500, new { message = "Došlo je do greške prilikom sinhronizacije", details = ex.ToString() });
+            }
+        }
     }
 }

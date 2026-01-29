@@ -1,5 +1,4 @@
-﻿// Interfaces/ITeamRepository.cs
-using SuperLeague.Models;
+﻿using SuperLeague.Models;
 
 namespace SuperLeague.Interfaces
 {
@@ -10,5 +9,6 @@ namespace SuperLeague.Interfaces
         Task<int> AddAsync(Team team); // Returns new TeamId
         Task<bool> UpdateAsync(Team team);
         Task<bool> ExistsAsync(string teamName, string city, int? excludeTeamId = null);
+        Task<Dictionary<string, int>> GetColumnLengthsAsync();
     }
 }

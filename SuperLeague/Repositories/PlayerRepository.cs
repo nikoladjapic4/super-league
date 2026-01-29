@@ -139,28 +139,5 @@ namespace SuperLeague.Repositories
             return count > 0;
         }
 
-        public async Task<Dictionary<string, int>> GetCountByPositionAsync()
-        {
-            using var connection = CreateConnection();
-
-            var sql = @"
-                SELECT 
-                    Position,
-                    COUNT(*) as Count
-                FROM Player
-                WHERE IsActive = 1
-                GROUP BY Position
-                ORDER BY Position";
-
-            var result = await connection.QueryAsync<PositionCount>(sql);
-
-            return result.ToDictionary(x => x.Position, x => x.Count);
-        }
-
-        private class PositionCount
-        {
-            public string Position { get; set; } = string.Empty;
-            public int Count { get; set; }
-        }
     }
 }

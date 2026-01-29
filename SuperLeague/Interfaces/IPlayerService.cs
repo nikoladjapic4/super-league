@@ -10,6 +10,8 @@ namespace SuperLeague.Interfaces
         Task<PlayerDto> UpdatePlayerAsync(int playerId, UpdatePlayerDto dto, int updatedBy);
         Task<bool> DeletePlayerAsync(int playerId, int deletedBy);
         Task<bool> RestorePlayerAsync(int playerId);
+        Task LockPlayerAsync(int playerId, int lockedBy);
+        Task UnlockPlayerAsync(int playerId, int userId);
         Task<Dictionary<string, int>> GetPlayerStatisticsByPositionAsync();
     }
 }
