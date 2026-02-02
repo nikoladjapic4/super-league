@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Application\" />
-    <Folder Include="Services\Sync\" />
   </ItemGroup>
 
 </Project>

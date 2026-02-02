@@ -168,19 +168,6 @@ namespace SuperLeague.Controllers
             }
         }
 
-        [HttpGet("statistics/by-position")]
-        public async Task<IActionResult> GetStatisticsByPosition()
-        {
-            try
-            {
-                var statistics = await _playerService.GetPlayerStatisticsByPositionAsync();
-                return Ok(statistics);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Greška prilikom preuzimanja statistike igrača");
-                return StatusCode(500, new { message = "Došlo je do greške prilikom preuzimanja statistike" });
-            }
-        }
+        
     }
 }
