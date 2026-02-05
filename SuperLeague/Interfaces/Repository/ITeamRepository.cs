@@ -1,6 +1,6 @@
 ﻿using SuperLeague.Models;
 
-namespace SuperLeague.Interfaces
+namespace SuperLeague.Interfaces.Repository
 {
     public interface ITeamRepository
     {

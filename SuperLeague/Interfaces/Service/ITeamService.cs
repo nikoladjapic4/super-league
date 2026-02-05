@@ -1,7 +1,6 @@
-﻿
-using SuperLeague.DTOs.Team;
+﻿using SuperLeague.DTOs.Team;
 
-namespace SuperLeague.Interfaces
+namespace SuperLeague.Interfaces.Service
 {
     public interface ITeamService
     {

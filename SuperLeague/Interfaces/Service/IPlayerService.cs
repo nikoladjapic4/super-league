@@ -1,6 +1,6 @@
 ﻿using SuperLeague.DTOs.Player;
 
-namespace SuperLeague.Interfaces
+namespace SuperLeague.Interfaces.Service
 {
     public interface IPlayerService
     {

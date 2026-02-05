@@ -1,7 +1,8 @@
 ﻿
 using SuperLeague.DTOs.Player;
 using SuperLeague.Exceptions;
-using SuperLeague.Interfaces;
+using SuperLeague.Interfaces.Repository;
+using SuperLeague.Interfaces.Service;
 using SuperLeague.Models;
 
 namespace SuperLeague.Services

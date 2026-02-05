@@ -1,6 +1,8 @@
 ﻿using SuperLeague.ExternalAPI.Interfaces;
 using SuperLeague.ExternalAPI.Services;
-using SuperLeague.Interfaces;
+using SuperLeague.Interfaces.Repository;
+using SuperLeague.Interfaces.Service;
+using SuperLeague.Interfaces.Sync;
 using SuperLeague.Repositories;
 using SuperLeague.Services;
 using SuperLeague.Services.Sync;
@@ -29,12 +31,17 @@ builder.Services.AddSwaggerGen();
 //  Register Repositories
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IPlayerTeamRepository, PlayerTeamRepository>();
 builder.Services.AddScoped<ILeagueRepository, LeagueRepository>();
 
 // Register Services
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<IPlayerTeamService, PlayerTeamService>();
 builder.Services.AddScoped<IDataSyncService, DataSyncService>();
+builder.Services.AddScoped<ITeamSyncService, TeamSyncService>();
+builder.Services.AddScoped<IPlayerSyncService, PlayerSyncService>();
+builder.Services.AddScoped<IPlayerTeamSyncService, PlayerTeamSyncService>();
 
 var app = builder.Build();
 

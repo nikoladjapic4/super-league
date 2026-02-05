@@ -1,6 +1,6 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-using SuperLeague.Interfaces;
+using SuperLeague.Interfaces.Repository;
 using SuperLeague.Models;
 using System.Data;
 

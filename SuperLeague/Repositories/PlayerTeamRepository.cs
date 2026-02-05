@@ -1,8 +1,8 @@
-﻿using Dapper;
+﻿// Repositories/PlayerTeamRepository.cs
+using Dapper;
 using Microsoft.Data.SqlClient;
-using Microsoft.IdentityModel.Tokens;
 using SuperLeague.Domain.Models;
-using SuperLeague.Interfaces;
+using SuperLeague.Interfaces.Repository;
 using System.Data;
 
 namespace SuperLeague.Repositories
@@ -23,50 +23,88 @@ namespace SuperLeague.Repositories
         {
             using var connection = CreateConnection();
 
-            var query = @"
-                INSERT INT Player_Team  (PlayerId, TeamId, StartDate, EndDate)
+            var sql = @"
+                INSERT INTO Player_Team (PlayerId, TeamId, StartDate, EndDate)
                 OUTPUT INSERTED.Player_TeamID
                 VALUES (@PlayerId, @TeamId, @StartDate, @EndDate)";
 
-            return await connection.ExecuteScalarAsync<int>(query, playerTeam);
+            return await connection.ExecuteScalarAsync<int>(sql, playerTeam);
         }
+
         public async Task<bool> ExistsAsync(int playerId, int teamId)
         {
             using var connection = CreateConnection();
 
-            var query = @"
+            var sql = @"
                 SELECT COUNT(1)
-                FFROM Player_Team
-                WHERE PlayerId = @PlayerId AND TeamId AND EndDate IS NULL";
+                FROM Player_Team
+                WHERE PlayerId = @PlayerId 
+                AND TeamId = @TeamId
+                AND EndDate IS NULL"; // Aktivna veza
 
-            var count = await connection.ExecuteScalarAsync<int>(query, new { PlayerId = playerId, TeamId = teamId});
+            var count = await connection.ExecuteScalarAsync<int>(sql, new { PlayerId = playerId, TeamId = teamId });
             return count > 0;
         }
+
         public async Task<PlayerTeam?> GetActiveByPlayerIdAsync(int playerId)
         {
             using var connection = CreateConnection();
 
-            var query = @" SELECT 
-                                Player_TeamID as PlayerTeamId,
-                                PlayerId,
-                                TeamId,
-                                StartDate,
-                                EndDate
-                           FROM Player_Team
-                           WHERE PlayerId = @PlayerId AND EndDate IS NULL
-                           ORDER BY StartDate DESC";
-            return await connection.QueryFirstOrDefaultAsync<PlayerTeam?>(query, new {PlayerId = playerId});
+            var sql = @"
+                SELECT 
+                    Player_TeamID as PlayerTeamId,
+                    PlayerId,
+                    TeamId,
+                    StartDate,
+                    EndDate
+                FROM Player_Team
+                WHERE PlayerId = @PlayerId 
+                AND EndDate IS NULL
+                ORDER BY StartDate DESC";
+
+            return await connection.QueryFirstOrDefaultAsync<PlayerTeam>(sql, new { PlayerId = playerId });
         }
+
         public async Task UpdateAsync(PlayerTeam playerTeam)
         {
             using var connection = CreateConnection();
 
-            var query = @"UPDATE Player_Team
-                          SET EndDate = @EndDate
-                          WHERE Player_TeamID = @PlayerTeamId";
+            var sql = @"
+                UPDATE Player_Team
+                SET EndDate = @EndDate
+                WHERE Player_TeamID = @PlayerTeamId";
 
-            await connection.ExecuteAsync(query, playerTeam)    ;
+            await connection.ExecuteAsync(sql, playerTeam);
+        }
 
+        public async Task<List<PlayerTeam>> GetAllActiveLinksAsync()
+        {
+            using var connection = CreateConnection();
+
+            var sql = @"
+                SELECT 
+                    Player_TeamID as PlayerTeamId,
+                    PlayerId,
+                    TeamId,
+                    StartDate,
+                    EndDate
+                FROM Player_Team
+                WHERE EndDate IS NULL";
+
+            var result = await connection.QueryAsync<PlayerTeam>(sql);
+            return result.ToList();
+        }
+
+        public async Task BulkAddAsync(List<PlayerTeam> playerTeams)
+        {
+            using var connection = CreateConnection();
+
+            var sql = @"
+                INSERT INTO Player_Team (PlayerId, TeamId, StartDate, EndDate)
+                VALUES (@PlayerId, @TeamId, @StartDate, @EndDate)";
+
+            await connection.ExecuteAsync(sql, playerTeams);
         }
     }
+
 }

@@ -1,133 +1,84 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using SuperLeague.DTOs.Player;
-using SuperLeague.DTOs.Team;
+﻿// Services/Sync/DataSyncService.cs
+using SuperLeague.ExternalAPI.DTOs;
 using SuperLeague.ExternalAPI.Interfaces;
-using SuperLeague.ExternalAPI.Mappers;
-using SuperLeague.Interfaces;
-using System.Linq.Expressions;
+using SuperLeague.Interfaces.Sync;
+using SuperLeague.Services.Sync;
+using System.Text.Json;
 
-namespace SuperLeague.Services.Sync
+public class DataSyncService : IDataSyncService
 {
-    public class DataSyncService : IDataSyncService
+    private readonly IFootballApiService _footballApiService;
+    private readonly ITeamSyncService _teamSyncService;
+    private readonly IPlayerSyncService _playerSyncService;
+    private readonly IPlayerTeamSyncService _playerTeamSyncService;
+    private readonly ILogger<DataSyncService> _logger;
+
+    public DataSyncService(
+        IFootballApiService footballApiService,
+        ITeamSyncService teamSyncService,
+        IPlayerSyncService playerSyncService,
+        IPlayerTeamSyncService playerTeamSyncService,
+        ILogger<DataSyncService> logger)
     {
-        private readonly IFootballApiService _footballApiService;
-        private readonly ITeamService _teamService;
-        private readonly IPlayerService _playerService;
-        private readonly ILogger<DataSyncService> _logger;
-
-        public DataSyncService(
-            IFootballApiService footballApiService,
-            ITeamService teamService,
-            IPlayerService playerService,
-            ILogger<DataSyncService> logger)
-        {
-            _footballApiService = footballApiService;
-            _teamService = teamService;
-            _playerService = playerService;
-            _logger = logger;
-        }
-
-        public async Task SyncLeagueDataAsync(int leagueId, int season, int userId)
-        {
-            _logger.LogInformation("Starting data sync for league {LeagueId}, season {Season}", leagueId, season);
-
-            try
-            {
-                // 1. Fetch teams
-                var apiTeams = await _footballApiService.GetTeamsByLeagueAsync(leagueId, season);
-                _logger.LogInformation("Fetched {Count} teams from API", apiTeams.Count);
-
-                // 2. Sync teams to database
-                foreach (var apiTeam in apiTeams)
-                {
-                    try
-                    {
-                        var team = TeamMapper.MapToDomain(apiTeam, userId);
-
-                        // Check if team already exists
-                        var existingTeams = await _teamService.GetAllTeamsAsync();
-                        var exists = existingTeams.Any(t =>
-                            t.TeamName == team.TeamName &&
-                            t.City == team.City);
-
-                        if (!exists)
-                        {
-                            var createDto = new CreateTeamDto
-                            {
-                                TeamName = team.TeamName,
-                                City = team.City,
-                                Stadium = team.Stadium,
-                                DateOfFoundation = team.DateOfFoundation
-                            };
-
-                            await _teamService.CreateTeamAsync(createDto, userId);
-                            _logger.LogInformation("Created team: {TeamName}", team.TeamName);
-                        }
-                        else
-                        {
-                            _logger.LogInformation("Team already exists: {TeamName}", team.TeamName);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Failed to sync team: {TeamName}",
-                            apiTeam.Team.Name);
-                    }
-                }
-
-                var squads = await _footballApiService.GetAllSquadsByLeagueAsync(leagueId, season);
-                _logger.LogInformation("Fetched {Count} squads from API", squads.Count);
-
-                // 3. Sync players to database
-                foreach (var squad in squads)
-                {
-                    foreach (var apiPlayer in squad.Players)
-                    {
-                        try
-                        {
-                            var player = PlayerMapper.MapToDomain(apiPlayer, userId);
-
-                            // Check if player exists
-                            var allPlayers = await _playerService.GetAllPlayersAsync();
-                            var exists = allPlayers.Any(x =>
-                            x.FirstName == player.PlayerFirstName &&
-                            x.LastName == player.PlayerLastName &&
-                            x.BirthDate == player.BirthDate);
-
-                            if (!exists)
-                            {
-                                var createDto = new CreatePlayerDto
-                                {
-                                    FirstName = player.PlayerFirstName,
-                                    LastName = player.PlayerLastName,
-                                    JerseyNumber = player.JerseyNumber,
-                                    Position = player.Position,
-                                    Nationality = player.Nationality,
-                                    BirthDate = player.BirthDate,
-
-                                };
-
-                                await _playerService.CreatePlayerAsync(createDto, userId);
-                                _logger.LogInformation("Created player: {FirstName} {LastName}", player.PlayerFirstName, player.PlayerLastName);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Failed to sync player: {PlayerName}", apiPlayer.Name);
-                        }
-
-                    }
-                    
-                }
-
-
-
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex, "Data sync failed");
-                throw;
-            }
+        _footballApiService = footballApiService;
+        _teamSyncService = teamSyncService;
+        _playerSyncService = playerSyncService;
+        _playerTeamSyncService = playerTeamSyncService;
+        _logger = logger;
     }
+
+    public async Task SyncLeagueDataAsync(int leagueId, int season, int userId)
+    {
+        _logger.LogInformation("Starting data sync for league {LeagueId}, season {Season}",
+            leagueId, season);
+
+        try
+        {
+            var cacheFile = $"cache/squads_{leagueId}_{season}.json";
+            List<SquadApiResponse> squads;
+
+            if (File.Exists(cacheFile))
+            {
+                _logger.LogInformation("Loading squads from cache file");
+                var json = await File.ReadAllTextAsync(cacheFile);
+                squads = JsonSerializer.Deserialize<List<SquadApiResponse>>(json) ?? new List<SquadApiResponse>();
+
+            }
+            else
+            {
+                _logger.LogInformation("Fetching squads from API (this will take time due to rate limits)");
+                squads = await _footballApiService.GetAllSquadsByLeagueAsync(leagueId, season);
+
+                Directory.CreateDirectory("Cache");
+
+                var json = JsonSerializer.Serialize(squads, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+                await File.WriteAllTextAsync(cacheFile, json);
+                _logger.LogInformation("Saved squads to cache file");
+            }
+
+
+            // 1. Fetch sve podatke odjednom
+            var apiTeams = await _footballApiService.GetTeamsByLeagueAsync(leagueId, season);
+
+            // 2. Sync timove i dobij mapping
+            var teamMapping = await _teamSyncService.SyncTeamsAsync(apiTeams, userId);
+
+            // 3. Sync igrače i dobij mapping
+            var playerMapping = await _playerSyncService.SyncPlayersAsync(squads, userId);
+
+            // 4. Sync Player-Team veze
+            await _playerTeamSyncService.SyncPlayerTeamLinksAsync(
+                squads, teamMapping, playerMapping, season, userId);
+
+            _logger.LogInformation("Data sync completed successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Data sync failed");
+            throw;
+        }
     }
 }
