@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SuperLeague.DTOs.Team;
-using SuperLeague.Exceptions;
-using SuperLeague.Interfaces.Service;
+using SuperLeague.Application.DTOs.Team;
+using SuperLeague.Application.Exceptions;
+using SuperLeague.Application.Services.Interfaces;
 
 namespace SuperLeague.Controllers
 {

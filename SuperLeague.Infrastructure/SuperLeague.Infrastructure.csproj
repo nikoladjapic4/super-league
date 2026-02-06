@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Cache\squads_286_2024.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SuperLeague.Application\SuperLeague.Application.csproj" />
+    <ProjectReference Include="..\SuperLeague.Domain\SuperLeague.Domain.csproj" />
+  </ItemGroup>
+	
+	<ItemGroup>
+
+    <PackageReference Include="Dapper" Version="2.1.66" />                     
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />    
+    
+
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />            
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+  </ItemGroup>
+
+</Project>

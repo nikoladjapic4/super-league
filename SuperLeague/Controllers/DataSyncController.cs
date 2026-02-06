@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SuperLeague.Services.Sync;
+using SuperLeague.Application.Services.Sync;
 
 namespace SuperLeague.Controllers
 {

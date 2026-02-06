@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using SuperLeague.Repositories;
-using SuperLeague.Services;
+using SuperLeague.Application.Services;
+using SuperLeague.Infrastructure.Repositories;
 using SuperLeague.Tests.Fakes;
 
 namespace SuperLeague.Tests

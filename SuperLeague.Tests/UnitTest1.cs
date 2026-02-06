@@ -1,6 +1,5 @@
-﻿
-using SuperLeague.DTOs.Team;
-using SuperLeague.Exceptions;
+﻿using SuperLeague.Application.DTOs.Team;
+using SuperLeague.Application.Exceptions;
 using SuperLeague.Tests.Builders;
 
 namespace SuperLeague.Tests.Services

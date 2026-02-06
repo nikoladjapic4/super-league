@@ -1,5 +1,5 @@
 ﻿
-using SuperLeague.DTOs.Team;
+using SuperLeague.Application.DTOs.Team;
 using SuperLeague.Tests.Fakes;
 
 namespace SuperLeague.Tests.Builders

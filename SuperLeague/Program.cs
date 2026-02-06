@@ -1,11 +1,11 @@
-﻿using SuperLeague.ExternalAPI.Interfaces;
-using SuperLeague.ExternalAPI.Services;
-using SuperLeague.Interfaces.Repository;
-using SuperLeague.Interfaces.Service;
+﻿using SuperLeague.Application.ExternalAPI.Interfaces;
+using SuperLeague.Infrastructure.ExternalAPI.Services;
+using SuperLeague.Domain.Interfaces.Repositories;
+using SuperLeague.Application.Services.Interfaces;
+using SuperLeague.Application.Services.Sync;
+using SuperLeague.Infrastructure.Repositories;
+using SuperLeague.Application.Services;
 using SuperLeague.Interfaces.Sync;
-using SuperLeague.Repositories;
-using SuperLeague.Services;
-using SuperLeague.Services.Sync;
 
 var builder = WebApplication.CreateBuilder(args);
 

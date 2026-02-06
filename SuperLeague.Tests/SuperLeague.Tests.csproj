@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SuperLeague\SuperLeague.csproj" />
+    <ProjectReference Include="..\SuperLeague\SuperLeague.API.csproj" />
   </ItemGroup>
 
 </Project>
