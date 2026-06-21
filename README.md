@@ -7,7 +7,7 @@ Architecture, the repository pattern and writing a proper backend, so the code i
 into separate projects instead of one big folder.
 
 > Heads up: there is no authentication yet, so for now the API just uses a hardcoded
-> user id (`1`) when something needs a "who did this". That's on my TODO list.
+> user id (`1`).
 
 ## What it can do
 
@@ -76,7 +76,7 @@ dotnet restore
 dotnet run --project SuperLeague
 ```
 
-Open the Swagger page (the URL is printed in the console, something like
+Open the Swagger page (the URL is printed in the console,
 `https://localhost:xxxx/swagger`) and you can try the endpoints.
 
 ## A few of the endpoints
@@ -91,7 +91,6 @@ Open the Swagger page (the URL is printed in the console, something like
 | GET    | `/api/player`          | list players |
 | POST   | `/api/datasync/...`    | sync teams/players from the external API |
 
-(There are more — check Swagger for the full list.)
 
 ## Tests
 
@@ -110,7 +109,3 @@ dotnet test
 - [ ] Add a global error handler instead of try/catch in every controller
 - [ ] Clean up the duplicated cache file
 
----
-
-This is a learning project, so if you spot something that could be done better I'd love to
-know. 🙂
